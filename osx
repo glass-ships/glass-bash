@@ -1,13 +1,15 @@
 #!/usr/local/bin/bash
 
+# Exports for Homebrew
 export PATH=/opt/local/bin:/opt/local/sbin:/usr/local/Cellar:/usr/local/bin:/usr/local/sbin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
 export DISPLAY=:0.0
 export HOMEBREW_GITHUB_API_TOKEN="bac60908e24c79caf3acc1a690a778b0c22535f2"
 
+# Use a real Python via pyenv
 eval "$(pyenv init -)"
 
-# ~/.dircolors/themefile
+# Dircolors theme file
 eval $(gdircolors "$PWD/dircolors/dircolors.256dark")
 
 # Aliases
