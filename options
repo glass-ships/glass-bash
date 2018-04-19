@@ -11,7 +11,7 @@ shopt -s dirspell # perform spelling corrections on directory names to match a g
 shopt -s dotglob # include .files in expansion
 shopt -s expand_aliases # expand aliases
 shopt -s extglob # enable extended pattern matching
-shopt -s failglob # expansion failures will print error messages
+shopt -u failglob # expansion failures will print error messages
 shopt -s globstar # enables ** recursive expansion
 shopt -s gnu_errfmt # use gnu error format
 shopt -s histappend #
