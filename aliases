@@ -13,3 +13,5 @@ alias l='ls -CF'
 alias ssh='ssh -t -o PasswordAuthentication=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 alias lesss='less -RSI +G'
 alias colorize="perl $HOME/bash_env/colorize/colorize"
+
+which hub >/dev/null && alias git=hub
