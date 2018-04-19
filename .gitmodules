@@ -13,3 +13,6 @@
 [submodule "bash-completion"]
 	path = bash-completion
 	url = https://github.com/scop/bash-completion.git
+[submodule "dircolors"]
+	path = dircolors
+	url = https://github.com/gibbling/dircolors.git

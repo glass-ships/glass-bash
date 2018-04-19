@@ -3,14 +3,12 @@
 export PATH=/opt/local/bin:/opt/local/sbin:/usr/local/Cellar:/usr/local/bin:/usr/local/sbin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
 export DISPLAY=:0.0
-
-if [ -f "$(brew --prefix)/etc/bash_completion" ]; then source "$(brew --prefix)/etc/bash_completion" ; fi
 export HOMEBREW_GITHUB_API_TOKEN="bac60908e24c79caf3acc1a690a778b0c22535f2"
 
 eval "$(pyenv init -)"
 
 # ~/.dircolors/themefile
-eval $(gdircolors ~/.dircolors/dircolors.256dark)
+eval $(gdircolors "$PWD/dircolors/dircolors.256dark")
 
 # Aliases
 alias ls='gls --color=auto'

@@ -6,7 +6,7 @@ source "$PWD/bash-completion/bash_completion"
 # Prepend stuff to PATH
 export PATH=$HOME/bin:$PATH
 
-# Source extra Mac stuff is on a Mac
+# Source extra Mac stuff if on a Mac
 [[ "$(uname)" == 'Darwin' ]] && source "$PWD/osx"
 
 # History settings
