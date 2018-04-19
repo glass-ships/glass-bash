@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Colorize
+color_prompt=yes
+
+# Activate colorization for less
+LESSOPEN="|lesspipe/lesspipe.sh %s"; export LESSOPEN
+
+#case "$TERM" in
+#    xterm*|rxvt*) PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\H: \w\a\]$PS1" ;;
+#esac

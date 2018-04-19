@@ -1,0 +1,12 @@
+[submodule "bblib"]
+	path = bblib
+	url = git@github.com:MrDrMcCoy/bblib.git
+[submodule "lesspipe"]
+	path = lesspipe
+	url = https://github.com/wofr06/lesspipe.git
+[submodule "colorize"]
+	path = colorize
+	url = https://github.com/raszi/colorize.git
+[submodule "bash-git-prompt"]
+	path = bash-git-prompt
+	url = https://github.com/magicmonty/bash-git-prompt.git
