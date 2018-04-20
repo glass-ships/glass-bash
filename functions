@@ -72,13 +72,13 @@ oomclear () {
   done
 }
 
-flogs () {
+flogs () { # find logs and print
   find -L "$1" -type f -iname "*.log" | \
     while read -r l ; do
       echo -e "\n$l\n"
-      tail -n 200 "$l" | grep -iPC2 'err|fatal|except'
+      tail -n 200 "$l" | LC_ALL=C grep -iPC2 'err|fatal|except|fail' | colorize
     done \
-  |& less -SIR
+  |& less -SIr
 }
 
 hardreset () {
@@ -110,9 +110,9 @@ archivevm () {
   virsh undefine "${vm}"
 }
 
-cr () {
+cr () { # Color reader
   case "$1" in
-    *log*|messages) colorize < "$1" | less -SIR ;;
-    *) less -SIR "$1" ;;
+    *log*|messages) colorize < "$1" | less -SIr ;;
+    *) less -SIr "$1" ;;
   esac
 }

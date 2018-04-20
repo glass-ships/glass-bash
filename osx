@@ -9,10 +9,5 @@ export HOMEBREW_GITHUB_API_TOKEN="bac60908e24c79caf3acc1a690a778b0c22535f2"
 # Use a real Python via pyenv
 eval "$(pyenv init -)"
 
-# Dircolors theme file
-eval $(gdircolors "$PWD/dircolors/dircolors.256dark")
-
 # Aliases
-alias ls='gls --color=auto'
-alias ll='ls -al'
 alias bash='/usr/local/bin/bash'
