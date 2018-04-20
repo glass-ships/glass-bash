@@ -24,15 +24,15 @@ resetswap () {
   for host in "$@" ; do
     echo -e "\nResetting swap on $host"
     ssh "$host" bash <<< '
-      trap exit INT TERM QUIT HUP ERR
+      trap exit INT TERM QUIT HUP
       service snmpd stop
       until [ $(grep SwapCached /proc/meminfo | awk "{print \$2}") = 0 ]; do
         if [ $(grep SwapTotal /proc/meminfo | awk "{print \$2}") -lt $(grep MemFree /proc/meminfo | awk "{print \$2}") ]; then
-          free -m
+          free -h
           echo "Flushing swap..."
           swapoff -av
         else
-          free -m
+          free -h
           echo "Not enough free memory to flush swap."
         fi
         sleep 2
@@ -40,7 +40,7 @@ resetswap () {
       done
       echo -e "\n"
       swapon -av
-      free -m
+      free -h
       echo -e "Swap clear"
     '
   done
@@ -49,7 +49,7 @@ resetswap () {
 ntp-update () {
   for host in "$@" ; do
     ssh "$1" bash -x <<< '
-      trap exit INT TERM QUIT HUP ERR
+      trap exit INT TERM QUIT HUP
       service ntp stop ; ntpd -gq ; service ntp start
       sntp -s 10.106.113.12
     '
@@ -88,7 +88,7 @@ hardreset () {
 nag-monitor () {
 	# Usage: nag-monitor [pod] [logflow{n} (optional)]
   ssh -t ${2:-logflow4}.dfw3.lijit.com "
-    trap exit INT TERM QUIT HUP ERR
+    trap exit INT TERM QUIT HUP
     watch --difference -n 6 '
       /opt/kafka/bin/kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --broker-info --group mirrordfw3 --topic raw_ad_activity --zookeeper adlog1.$1.lijit.com:5181
       /opt/kafka/bin/kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --broker-info --group mirrordfw3 --topic raw_oa_lg_stream --zookeeper adlog1.$1.lijit.com:5181
