@@ -116,3 +116,16 @@ cr () { # Color reader
     *) less -SIr "$1" ;;
   esac
 }
+
+ahab () {
+  docker container ls --all | awk '{print $1}' | tail -n +2 | while read -r id ; do
+    docker container stop $id
+    docker container rm $id
+  done
+  docker volume ls | awk '{print $2}' | tail -n +2 | while read -r id ; do
+    docker volume rm $id
+  done
+  docker image ls | awk '{print $3}' | tail -n +2 | while read -r id ; do
+    docker image rm $id
+  done
+}
