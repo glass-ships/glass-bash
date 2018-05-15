@@ -30,8 +30,9 @@ else
 fi
 
 # Set a cooler prompt for git and stuff
-GIT_PROMPT_ONLY_IN_REPO=0
 source "$PWD/bash-git-prompt/gitprompt.sh"
+export GIT_PROMPT_ONLY_IN_REPO=0
+export GIT_PROMPT_THEME="Single_line_Minimalist"
 
 # Source bblib and remove unwanted traps
 source "$PWD/bblib/bblib.bash"
