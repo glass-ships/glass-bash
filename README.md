@@ -8,7 +8,7 @@ To use it, follow these steps:
 2. Run the following command: `git clone --recursive -j8 https://github.com/MrDrMcCoy/bash_env.git` 
 3. Add this to your `~/.bashrc`:
   ```bash
-  cd bash_env
+  cd ${HOME}/bash_env
   source main
   cd -
   ```
