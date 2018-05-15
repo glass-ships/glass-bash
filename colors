@@ -10,10 +10,7 @@ export LESSOPEN="|$PWD/lesspipe/lesspipe.sh %s"
 [ -h "$HOME/.colorizerc" ] || ln -sfv "$PWD/colorize/colorizerc" "$HOME/.colorizerc"
 
 # Set up color profile
-if eval $(gdircolors "$PWD/dircolors/dircolors.256dark") ; then
-  alias ls='gls --color=always'
-  alias grep='pcregrep --color=always'
-elif eval $(dircolors "$PWD/dircolors/dircolors.256dark") ; then
+if eval $(dircolors "$PWD/dircolors/dircolors.256dark") ; then
   alias ls='ls --color=always'
   alias grep='grep --color=always'
 fi &> /dev/null

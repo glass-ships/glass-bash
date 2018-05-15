@@ -11,3 +11,9 @@ eval "$(pyenv init -)"
 
 # Aliases
 alias bash='/usr/local/bin/bash'
+
+# Colors
+if eval $(gdircolors "$PWD/dircolors/dircolors.256dark") ; then
+  alias ls='gls --color=always'
+  alias grep='pcregrep --color=always'
+fi
