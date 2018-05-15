@@ -3,8 +3,24 @@
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias ssh='ssh -t -o PasswordAuthentication=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+
 alias lesss='less -RSI +G'
 alias colorize="perl $PWD/colorize/colorize"
+alias wat='whoami && hostname'
 
-which hub >/dev/null && alias git=hub
+alias nero='ssh -X -p 26 josh@nero.stanford.edu'
+alias triumf01='ssh josh@dcrc01.triumf.ca'
+
+### suse aliases
+: <<'EOF'
+alias sz='sudo zypper'
+alias z='zypper'
+EOF
+
+### kde neon aliases
+: <<'EOF2'
+ alias sa='sudo apt'
+EOF2
+
+
+#which hub >/dev/null && alias git=hub

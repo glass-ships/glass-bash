@@ -1,5 +1,14 @@
 #!/bin/bash
 
+function cs() {
+        cd "$@" && ls -al
+        }
+
+
+###
+#here when i sat down
+##
+
 resetadsrv () {
 	for host in "$@" ; do
     echo -e "\nRestarting ad services on $h"
