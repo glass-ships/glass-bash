@@ -1,13 +1,16 @@
 #!/bin/bash
 
+#################
+#  Glass fxns   #
+#################
+
 function cs() {
         cd "$@" && ls -al
         }
 
-
-###
-#here when i sat down
-##
+##################
+#   McCoy fxns   #
+##################
 
 resetadsrv () {
 	for host in "$@" ; do
@@ -94,31 +97,6 @@ hardreset () {
   for m in s u s b ; do echo $m > /proc/sysrq-trigger ; done
 }
 
-nag-monitor () {
-	# Usage: nag-monitor [pod] [logflow{n} (optional)]
-  ssh -t ${2:-logflow4}.dfw3.lijit.com "
-    trap exit INT TERM QUIT HUP
-    watch --difference -n 6 '
-      /opt/kafka/bin/kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --broker-info --group mirrordfw3 --topic raw_ad_activity --zookeeper adlog1.$1.lijit.com:5181
-      /opt/kafka/bin/kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --broker-info --group mirrordfw3 --topic raw_oa_lg_stream --zookeeper adlog1.$1.lijit.com:5181
-      /opt/kafka/bin/kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --broker-info --group mirrordfw3 --topic raw_ad_activity --zookeeper adlog2.$1.lijit.com:5181
-      /opt/kafka/bin/kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --broker-info --group mirrordfw3 --topic raw_oa_lg_stream --zookeeper adlog2.$1.lijit.com:5181
-    '
-  "
-}
-
-archivevm () {
-  local vm=${1}
-  local vmpath=${2:-/mnt/nfs1/KVMDisks1/prod}
-
-  virsh destroy "${vm}"
-  cd "$vmpath" &&\
-  virsh dumpxml "${vm}" > "${vm}.xml" &&\
-  time tar -cv "${vm}" "${vm}.xml" | xz -2v > "${vm}_$(date +%F-%T).tar.xz" &&\
-  rm -v "${vm}" "${vm}.xml" &&\
-  virsh undefine "${vm}"
-}
-
 cr () { # Color reader
   case "$1" in
     *log*|messages) colorize < "$1" | less -SIr ;;
@@ -127,14 +105,45 @@ cr () { # Color reader
 }
 
 ahab () {
-  docker container ls --all | awk '{print $1}' | tail -n +2 | while read -r id ; do
-    docker container stop $id
-    docker container rm $id
+  echo "Removing containers..."
+  docker container ls --all | awk '{print $1}' | tail -n +2 \
+    | while read -r id ; do
+        docker container kill $id
+        docker container rm $id
+      done
+  while (($#)) ; do
+    case "$1" in
+      --volume|-v)
+        echo "Removing volumes..."
+        shift
+        docker volume ls | awk '{print $2}' | tail -n +2 \
+          | while read -r id ; do
+              docker volume rm $id
+            done
+      ;;
+      --image|-i)
+        shift
+        echo "Removing images..."
+        docker image ls | awk '{print $3}' | tail -n +2 \
+          | while read -r id ; do
+              docker image rm $id
+            done
+      ;;
+      -*) echo "ERROR" "Option '$1' is not defined." ;;
+    esac
+    shift
   done
-  docker volume ls | awk '{print $2}' | tail -n +2 | while read -r id ; do
-    docker volume rm $id
-  done
-  docker image ls | awk '{print $3}' | tail -n +2 | while read -r id ; do
-    docker image rm $id
-  done
+}
+
+ffmpeg-update () {
+  subpath="$(
+    wget -qO- https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-64bit-static.tar.xz \
+      | tar -tJ | head -n1
+  )"
+  wget -qO- https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-64bit-static.tar.xz \
+    | tar --no-same-owner --strip-components=1 -xvJC /usr/bin/ \
+        ${subpath}ffmpeg-10bit \
+        ${subpath}ffmpeg \
+        ${subpath}ffprobe \
+        ${subpath}qt-faststart
 }
