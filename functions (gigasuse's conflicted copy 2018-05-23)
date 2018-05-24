@@ -1,0 +1,140 @@
+#!/bin/bash
+
+function cs() {
+        cd "$@" && ls -al
+        }
+
+
+###
+#here when i sat down
+##
+
+resetadsrv () {
+	for host in "$@" ; do
+    echo -e "\nRestarting ad services on $h"
+    ssh "$host" bash -x <<< "
+      trap exit INT TERM QUIT HUP ERR
+      service syslog-ng restart
+      service nagios-nrpe-server restart
+      service raptor stop
+      service blackbird stop
+      service nginx restart
+      sleep 2
+      service raptor start
+      service blackbird start
+      /usr/share/lijit-podlogging/bin/podlogging restart
+      /usr/share/lijit-headersuite-service/bin/headersuite-service restart
+      iptables-restore < /etc/iptables.rules
+    "
+  done
+}
+
+resetswap () {
+  for host in "$@" ; do
+    echo -e "\nResetting swap on $host"
+    ssh "$host" bash <<< '
+      trap exit INT TERM QUIT HUP
+      service snmpd stop
+      until [ $(grep SwapCached /proc/meminfo | awk "{print \$2}") = 0 ]; do
+        if [ $(grep SwapTotal /proc/meminfo | awk "{print \$2}") -lt $(grep MemFree /proc/meminfo | awk "{print \$2}") ]; then
+          free -h
+          echo "Flushing swap..."
+          swapoff -av
+        else
+          free -h
+          echo "Not enough free memory to flush swap."
+        fi
+        sleep 2
+        echo -en "\e[5A"
+      done
+      echo -e "\n"
+      swapon -av
+      free -h
+      echo -e "Swap clear"
+    '
+  done
+}
+
+ntp-update () {
+  for host in "$@" ; do
+    ssh "$1" bash -x <<< '
+      trap exit INT TERM QUIT HUP
+      service ntp stop ; ntpd -gq ; service ntp start
+      sntp -s 10.106.113.12
+    '
+  done
+}
+
+setproxy () {
+  local host=${1:-squid1.dfw2.lijit.com}
+  local port=${2:-3128}
+  export http_proxy="http://${host}:${port}"
+  export https_proxy="https://${host}:${port}"
+}
+
+oomclear () {
+  for host in "$@" ; do
+    ssh "$1" bash -x <<< '
+      dmesg -c >> /var/log/dmesg
+      free -h
+    '
+  done
+}
+
+flogs () { # find logs and print
+  find -L "$1" -type f -iname "*.log" | \
+    while read -r l ; do
+      echo -e "\n$l\n"
+      tail -n 200 "$l" | LC_ALL=C grep -iPC2 'err|fatal|except|fail' | colorize
+    done \
+  |& less -SIr
+}
+
+hardreset () {
+  for m in s u s b ; do echo $m > /proc/sysrq-trigger ; done
+}
+
+nag-monitor () {
+	# Usage: nag-monitor [pod] [logflow{n} (optional)]
+  ssh -t ${2:-logflow4}.dfw3.lijit.com "
+    trap exit INT TERM QUIT HUP
+    watch --difference -n 6 '
+      /opt/kafka/bin/kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --broker-info --group mirrordfw3 --topic raw_ad_activity --zookeeper adlog1.$1.lijit.com:5181
+      /opt/kafka/bin/kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --broker-info --group mirrordfw3 --topic raw_oa_lg_stream --zookeeper adlog1.$1.lijit.com:5181
+      /opt/kafka/bin/kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --broker-info --group mirrordfw3 --topic raw_ad_activity --zookeeper adlog2.$1.lijit.com:5181
+      /opt/kafka/bin/kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --broker-info --group mirrordfw3 --topic raw_oa_lg_stream --zookeeper adlog2.$1.lijit.com:5181
+    '
+  "
+}
+
+archivevm () {
+  local vm=${1}
+  local vmpath=${2:-/mnt/nfs1/KVMDisks1/prod}
+
+  virsh destroy "${vm}"
+  cd "$vmpath" &&\
+  virsh dumpxml "${vm}" > "${vm}.xml" &&\
+  time tar -cv "${vm}" "${vm}.xml" | xz -2v > "${vm}_$(date +%F-%T).tar.xz" &&\
+  rm -v "${vm}" "${vm}.xml" &&\
+  virsh undefine "${vm}"
+}
+
+cr () { # Color reader
+  case "$1" in
+    *log*|messages) colorize < "$1" | less -SIr ;;
+    *) less -SIr "$1" ;;
+  esac
+}
+
+ahab () {
+  docker container ls --all | awk '{print $1}' | tail -n +2 | while read -r id ; do
+    docker container stop $id
+    docker container rm $id
+  done
+  docker volume ls | awk '{print $2}' | tail -n +2 | while read -r id ; do
+    docker volume rm $id
+  done
+  docker image ls | awk '{print $3}' | tail -n +2 | while read -r id ; do
+    docker image rm $id
+  done
+}
