@@ -37,7 +37,7 @@ resetswap () {
     echo -e "\nResetting swap on $host"
     ssh "$host" bash <<< '
       trap exit INT TERM QUIT HUP
-      service snmpd stop
+      service snmpd stop || true
       until [ $(grep SwapCached /proc/meminfo | awk "{print \$2}") = 0 ]; do
         if [ $(grep SwapTotal /proc/meminfo | awk "{print \$2}") -lt $(grep MemFree /proc/meminfo | awk "{print \$2}") ]; then
           free -h

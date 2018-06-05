@@ -9,13 +9,9 @@ alias colorize="perl $PWD/colorize/colorize"
 alias wat='whoami && hostname'
 alias plex='systemctl start docker && docker start plex'
 alias rpa='pulseaudio --kill && pulseaudio --start'
+alias sz='sudo zypper '$@''
 
 alias pynote='jupyter notebook --no-browser'
 alias nerotunnel='ssh -L 8888:localhost:8888 -p 26 josh@nero.stanford.edu'
 alias nero='ssh -X -p 26 josh@nero.stanford.edu'
 alias triumf01='ssh josh@dcrc01.triumf.ca'
-
-### suse aliases
-alias sz='sudo zypper'
-alias z='zypper'
-
