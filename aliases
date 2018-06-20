@@ -6,12 +6,15 @@ alias l='ls -CF'
 alias lesss='less -RSI +G'
 alias colorize="perl $PWD/colorize/colorize"
 
-alias wat='whoami && hostname'
-alias plex='systemctl start docker && docker start plex'
-alias rpa='pulseaudio --kill && pulseaudio --start'
 alias sz='sudo zypper '$@''
+alias wat='whoami && hostname'
+alias rpa='pulseaudio --kill && pulseaudio --start'
+
+alias plex='systemctl start docker && docker start plex'
+alias ps3='cd ~/Programs/rpcs3 && ./rpcs3-*_linux64.AppImage'
+alias ps3upd='cd ~/Programs/rpcs3 && ./rpcs3.sh'
 
 alias pynote='jupyter notebook --no-browser'
-alias nerotunnel='ssh -L 8888:localhost:8888 -p 26 josh@nero.stanford.edu'
-alias nero='ssh -X -p 26 josh@nero.stanford.edu'
+alias nerotunnel='ssh -L 8888:localhost:8888 josh@nero'
+alias nero='ssh -X josh@nero'
 alias triumf01='ssh josh@dcrc01.triumf.ca'
