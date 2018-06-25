@@ -12,7 +12,7 @@ alias rpa='pulseaudio --kill && pulseaudio --start'
 
 alias plex='systemctl start docker && docker start plex'
 alias ps3='cd ~/Programs/rpcs3 && ./rpcs3-*_linux64.AppImage'
-alias ps3upd='cd ~/Programs/rpcs3 && ./rpcs3.sh'
+alias ps3upd='cd ~/Programs/rpcs3 && ./ps3.sh'
 
 alias pynb='jupyter notebook --no-browser'
 alias nerotunnel='ssh -L 8888:localhost:8888 josh@nero'
