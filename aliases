@@ -10,7 +10,8 @@ alias sz='sudo zypper '$@''
 alias wat='whoami && hostname'
 alias rpa='pulseaudio --kill && pulseaudio --start'
 
-alias plex='systemctl start docker && docker start plex'
+alias plex='docker start plex'
+alias leaper='docker start leaper && docker attach leaper'
 alias ps3='cd ~/Programs/rpcs3 && ./rpcs3-*_linux64.AppImage'
 alias ps3upd='cd ~/Programs/rpcs3 && ./ps3.sh'
 
