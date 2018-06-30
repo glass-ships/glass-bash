@@ -9,7 +9,7 @@ alias colorize="perl $PWD/colorize/colorize"
 
 # personal terminal shortcuts
 alias wat='whoami && hostname'
-alias find = 'sudo find / -name '$@''
+alias sfind='sudo find / -name '$@''
 alias sz='sudo zypper '$@''
 
 # multi-media shortcuts
