@@ -5,6 +5,7 @@ alias la='ls -A'
 alias l='ls -CF'
 alias lesss='less -RSI +G'
 alias colorize="perl $PWD/colorize/colorize"
+alias env='env | sort'
 
 alias sz='sudo zypper '$@''
 alias wat='whoami && hostname'
