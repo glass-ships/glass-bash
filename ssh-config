@@ -1,0 +1,9 @@
+Host nero
+  Hostname nero.stanford.edu
+  Port 26
+Host nerva
+  Hostname nerva.stanford.edu
+  Port 26
+Host galba
+  Hostname galba.stanford.edu
+  Port 26
