@@ -24,4 +24,6 @@ alias ps3upd='cd ~/Programs/rpcs3 && ./ps3.sh'
 # ssh shortcuts
 alias nerotunnel='ssh -L 8888:localhost:8888 josh@nero'
 alias nero='ssh -X josh@nero'
+alias galba='ssh josh@galba'
+alias galbatunnel='ssh -L 8890:localhost:8890 josh@galba'
 alias triumf01='ssh josh@dcrc01.triumf.ca'

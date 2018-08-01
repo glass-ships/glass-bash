@@ -1,3 +1,3 @@
-cd ~/bash_env
+cd $HOME/bash_env
 source main
 cd -
