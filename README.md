@@ -11,6 +11,6 @@ To use it, follow these steps:
 ``$ git clone http://github.com/glass-ships/bash_env.git``
 
 2. initialize new environment:
-``$ bash ~/bash_env/init.sh``
+``$ bash bash_env/init.sh``
 
 3. enjoy
