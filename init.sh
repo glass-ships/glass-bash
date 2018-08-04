@@ -1,10 +1,10 @@
 # add bashrc
-cp ./bashrc ~/.bashrc
-source ~/.bashrc
+cp ./bashrc $HOME/.bashrc
+source $HOME/.bashrc
 
 # add ssh settings
-cp ./sshconfig ~/.ssh/config
-chmod 644 ~/.ssh/config 
+cp ./sshconfig $HOME/.ssh/config
+chmod 644 $HOME/.ssh/config 
 
 # set git name and email
 git config --global user.name "glass ships"
