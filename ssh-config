@@ -7,3 +7,7 @@ Host nerva
 Host galba
   Hostname galba.stanford.edu
   Port 26
+Host triumf01
+  Hostname dcrc01.triumf.ca
+Host triumf02
+  Hostname dcrc02.triumf.ca
