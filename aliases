@@ -12,6 +12,7 @@ alias env='env | sort'
 alias wat='whoami && hostname'
 alias sfind='sudo find / -name '$@''
 alias sz='sudo zypper '$@''
+alias gs='git status'
 
 # multi-media shortcuts
 alias rpa='pulseaudio --kill && pulseaudio --start'
