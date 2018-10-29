@@ -1,3 +1,5 @@
+#! /usr/bin/env bash
+
 # add bashrc
 cp ./bashrc $HOME/.bashrc
 source $HOME/.bashrc
