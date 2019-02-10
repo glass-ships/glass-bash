@@ -50,7 +50,8 @@ unset SSH_ASKPASS
 unset GIT_ASKPASS
 
 # source my functions and aliases
-source functions
-source aliases
-source options
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source $DIR/functions
+source $DIR/aliases
+source $DIR/options
 
