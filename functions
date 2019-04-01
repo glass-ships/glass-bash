@@ -1,9 +1,6 @@
 #!/bin/bash
 
-#################
-#  Glass fxns   #
-#################
-
+# ls after cd 
 function cs() {
         cd "$@" && ls -al
         }

@@ -4,17 +4,17 @@
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias lesss='less -RSI +G'
-alias colorize="perl $PWD/colorize/colorize"
-alias env='env | sort'
 
-# personal terminal shortcuts
+alias env='env | sort'
+alias grep='grep -n'
+
 alias wat='whoami && hostname'
 alias sfind='sudo find / -name '$@''
-alias sz='sudo zypper '$@''
 alias gs='git status'
 
-# multi-media shortcuts
+alias lesss='less -RSI +G'
+alias colorize="perl $PWD/colorize/colorize"
+
 alias rpa='pulseaudio --kill && pulseaudio --start'
 
 # ssh shortcuts
