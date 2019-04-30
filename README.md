@@ -14,3 +14,5 @@ To use it, follow these steps:
 ``$ bash bash_env/init.sh``
 
 3. enjoy
+
+**Note - this init script sets me as the default git user; you may want to update this to reflect your own authorship**
