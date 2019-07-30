@@ -54,4 +54,4 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 source $DIR/functions
 source $DIR/aliases
 source $DIR/options
-
+unset DIR

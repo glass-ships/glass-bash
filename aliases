@@ -7,15 +7,14 @@ alias l='ls -CF'
 
 alias env='env | sort'
 alias grep='grep -n'
-
+alias howbig='du -csh '$@''
 alias wat='whoami && hostname'
 alias sfind='sudo find / -name '$@''
 alias gs='git status'
 
-alias lesss='less -RSI +G'
-alias colorize="perl $PWD/colorize/colorize"
-
+# ubuntu specific aliases
 alias rpa='pulseaudio --kill && pulseaudio --start'
+alias upd='sudo apt update && sudo apt dist-upgrade'
 
 # ssh shortcuts
 alias nero='ssh -X josh@nero'
