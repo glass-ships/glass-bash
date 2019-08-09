@@ -11,10 +11,7 @@ alias howbig='du -csh '$@''
 alias wat='whoami && hostname'
 alias sfind='sudo find / -name '$@''
 alias gs='git status'
-
-# ubuntu specific aliases
-alias rpa='pulseaudio --kill && pulseaudio --start'
-alias upd='sudo apt update && sudo apt dist-upgrade'
+alias sudoe='sudo env 'PATH=$PATH' '$@''
 
 # ssh shortcuts
 alias nero='ssh -X josh@nero'
