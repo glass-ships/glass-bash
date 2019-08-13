@@ -11,7 +11,7 @@ alias howbig='du -csh '$@''
 alias wat='whoami && hostname'
 alias sfind='sudo find / -name '$@''
 alias gs='git status'
-alias please='sudo env 'PATH=$PATH' '$@''
+alias pls='sudo -E '
 
 # ssh shortcuts
 alias nero='ssh -X josh@nero'
