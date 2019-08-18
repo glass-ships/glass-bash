@@ -1,4 +1,6 @@
 #! /usr/bin/env bash
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+echo Script directory: $DIR
 
 # add bashrc
 cp ./bashrc $HOME/.bashrc
