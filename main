@@ -1,4 +1,6 @@
-#!/bin/bash
+#! /usr/bin/env bash
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+echo Script directory: $DIR
 
 # If not running interactively, don't do anything
 case $- in
@@ -16,9 +18,6 @@ HISTFILESIZE=2000
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set custom command prompt
-PS1="\n\[\e[0;31m\]\t\[\e[m\]\[\e[1;33m\]-\[\e[m\]\[\e[33m\]\u\[\e[m\]\[\e[35m\]@\[\e[m\]\[\e[36m\]\h\[\e[m\]\[\e[33m\]:\[\e[m\]\n\[\e[32m\]${debian_chroot:+($debian_chroot)}\[\e[m\]\[\e[33m\]> \[\e[m\]\[\e[35m\]\w\[\e[m\] \[\e[32m\]$\[\e[m\] "
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -34,9 +33,9 @@ fi
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
+# enable programmable completion features 
+# (you don't need to enable this, if it's already enabled
+# in /etc/bash.bashrc, as /etc/profile sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
@@ -49,9 +48,12 @@ fi
 unset SSH_ASKPASS
 unset GIT_ASKPASS
 
-# source my functions and aliases
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+# set custom command prompt
+PS1="\n\[\e[0;31m\]\t\[\e[m\]\[\e[1;33m\]-\[\e[m\]\[\e[33m\]\u\[\e[m\]\[\e[35m\]@\[\e[m\]\[\e[36m\]\h\[\e[m\]\[\e[33m\]:\[\e[m\]\n\[\e[32m\]${debian_chroot:+($debian_chroot)}\[\e[m\]\[\e[33m\]> \[\e[m\]\[\e[35m\]\w\[\e[m\] \[\e[32m\]$\[\e[m\] "
+
+# source aliases, functions, and shell options
 source $DIR/functions
 source $DIR/aliases
 source $DIR/options
+
 unset DIR
