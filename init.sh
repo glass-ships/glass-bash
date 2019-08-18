@@ -2,9 +2,8 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 echo Script directory: $DIR
 
-# add bashrc
-cp ./bashrc $HOME/.bashrc
-source $HOME/.bashrc
+# add source env to bashrc
+grep -qxF 'source '$DIR'/main' $HOME/.bashrc || echo 'source '$DIR'/main' >> $HOME/.bashrc
 
 # add ssh settings
 ssh-keygen -t rsa
