@@ -1,21 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# general terminal aliases
+# general
+
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
 alias env='env | sort'
 alias grep='grep -n'
-alias howbig='du -csh '$@''
-alias wat='whoami && hostname'
 alias sfind='sudo find / -name '$@''
-alias gs='git status'
-alias pls='sudo -E '
+alias howbig='du -csh '$@''
 
-# ssh shortcuts
-alias nero='ssh -X josh@nero'
-alias nerotunnel='ssh -L 8888:localhost:8888 josh@nero'
-alias galba='ssh josh@galba'
-alias galbatunnel='ssh -L 8890:localhost:8890 josh@galba'
-alias slac7='ssh josh@centos7.slac.stanford.edu'
+alias pls='sudo -E '
+alias wat='whoami && hostname'
+
+# git 
+alias gs='git status'
+
+# ssh
+#alias ssh='ssh -X'
+alias sshpipe='ssh -L 8888:localhost:8888'
