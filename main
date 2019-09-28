@@ -102,9 +102,9 @@ c3="\e[38;5;201m\]"
 c4="\e[38;5;87m\]"
 pTIME="\n"$c1"(\t)\e[m\]"
 pWHO=$c2"\u"$c1"@"$c2"\h\e[m\]"
-pDIR="\n\${debian_chroot:+(debian_chroot)}"$c4"\w"
-pPROMPT=$c3"\`parse_git_dirty\`"$c4" $ \e[m\]"
-PS1=$pTIME$pWHO$pDIR$pPROMPT
+pDIR=$c4"\n \w" #| sed -e "s,\/,$c3\/,g"  
+pPROMPT=$c3"\`parse_git_dirty\`"$c1" $ \e[m\]" 
+PS1=$pTIME$pWHO$pDIR$pPROMPT  
 
 # force command-line username/password entry in git and ssh
 unset SSH_ASKPASS
