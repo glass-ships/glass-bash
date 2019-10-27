@@ -10,7 +10,7 @@ alias env='env | sort'
 alias grep='grep -n'
 alias sfind='sudo find / -name '$@''
 alias howbig='du -csh '$@''
-
+alias docker-cleanup='docker rmi $(docker images -f "dangling=true" -q)'
 alias pls='sudo -E '
 alias wat='whoami && hostname'
 
