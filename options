@@ -12,7 +12,7 @@ shopt -s dotglob # include .files in expansion
 shopt -s expand_aliases # expand aliases
 shopt -s extglob # enable extended pattern matching
 shopt -u failglob # expansion failures will print error messages
-#shopt -s globstar # enables ** recursive expansion
+shopt -s globstar # enables ** recursive expansion
 #shopt -s gnu_errfmt # use gnu error format
 shopt -s histappend # append to the history file, don't overwrite it
 #shopt -s huponexit # send SIGHUP to all subprocesses when a shell exists
