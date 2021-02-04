@@ -18,4 +18,5 @@
 
 - Docker: Save current container state (in second terminal)  
     ```bash 
-    docker commit <containerid> <new-container-name>```
+    docker commit <containerid> <new-container-name> 
+    ```
