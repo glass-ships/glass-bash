@@ -16,5 +16,6 @@
     bash -c 'rm -rf **/*~ **/__pycache__ build dist *.egg-info **/*.so **/*.pyc'
     ```
 
-- Docker: Save current container state (in second terminal)
-    `docker commit <containerid> <new-container-name>`
+- Docker: Save current container state (in second terminal)  
+    ```bash 
+    docker commit <containerid> <new-container-name>```
