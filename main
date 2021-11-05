@@ -96,6 +96,9 @@ function parse_git_dirty {
 
 ## Customize cmd prompt
 
+# this one works while i figure out what's wrong with the below method
+PS1="\[\033[38;5;57m\][\[$(tput sgr0)\]\[\033[38;5;226m\]\A\[$(tput sgr0)\]\[\033[38;5;57m\]]\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;14m\]\w\[$(tput sgr0)\]\n\[$(tput sgr0)\]\[\033[38;5;213m\]\u\[$(tput sgr0)\]\[\033[38;5;226m\]@\[$(tput sgr0)\]\[\033[38;5;141m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;11m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
+
 # to change colors c0-4, change "XXX" in "\e[38;5;XXXm\]"
 # red
 c0="\[\e[0;31m\]"
@@ -108,11 +111,11 @@ c3="\[\e[38;5;201m\]"
 # cyan (alt use 36m)
 c4="\[\e[38;5;87m\]"
 
-pTIME="\[$c2\][\[$c1\]\t\[$c2\]]\[\e[m\]"
-pWHO="\[$c4\]\[\u\]\[$c3\]@\[$c2\]\[\h\]\[\e[m\]"
-pGIT="\[$c3\]\[\`parse_git_dirty\`\] "
-pDIR="\[$c4\]\[\w\]\[$c3\]\[$pGIT\]\[\e[m\]"
-PS1="\[\n\]\[$pTIME\]\[$pDIR\]\[\n\]\[$pWHO\] $ "
+#pTIME="\[$c2\][\[$c1\]\t\[$c2\]]\[\e[m\]"
+#pWHO="\[$c4\]\[\u\]\[$c3\]@\[$c2\]\[\h\]\[\e[m\]"
+#pGIT="\[$c3\]\[\`parse_git_dirty\`\] "
+#pDIR="\[$c4\]\[\w\]\[$c3\]$pGIT\[\e[m\]"
+#PS1="\[\n\]$pTIME $pDIR\[\n\]$pWHO $ "
 
 # force command-line username/password entry in git and ssh
 unset SSH_ASKPASS
@@ -123,4 +126,5 @@ source $DIR/functions
 source $DIR/aliases
 source $DIR/options
 source $DIR/secrets
+
 unset DIR
