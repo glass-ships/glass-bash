@@ -21,3 +21,6 @@ alias gc='[ "`git log --pretty=%H ...refs/heads/master^ | head -n 1`" = "`git ls
 # ssh
 #alias ssh='ssh -X'
 alias sshpipe='ssh -L 8888:localhost:8888'
+
+# extras
+alias jlab='jupyter-lab --no-browser'

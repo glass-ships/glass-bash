@@ -2,5 +2,93 @@
 
 # ls after cd 
 function cs() {
-        cd "$@" && ls -al
-        }
+    cd "$@" && ls -al
+}
+
+# git some file
+function git_file() {
+	# Arguments:
+	# 1. the numeric project ID 
+	# 2. the file you want (incl. ext)
+	# 3. the branch to pull from
+ 
+	curl --header "Private-Token: ${GITLAB_TOKEN}" "https://gitlab.com/api/v4/projects/$1/repository/files/$2/raw\?ref\=$3"
+}
+
+# Functions to manage mirroring git repositories 
+# from Nero GitBlit to GitLab.com/SuperCDMS
+
+nero2gitlab(){
+    cd $1
+    D=$(pwd)
+    git remote add --mirror=push gitlab git@gitlab.com:supercdms/${D:10}
+    git push gitlab
+    cd ..
+}
+
+function git-setup-mirrors(){
+    REPOS=$(find . -maxdepth 1 -mindepth 1 -type d -printf '%f ')
+    for REPO in $REPOS
+    do
+        cd $REPO
+        D=$(pwd)
+        git remote add --mirror=push gitlab git@gitlab.com:supercdms/${D:10}
+        git push gitlab
+        cd ..
+    done
+}
+
+function git-mirror-group(){
+    GRPS=$(find . -maxdepth 1 -mindepth 1 -type d -printf '%f ')
+    for GRP in $GRPS
+    do
+        cd $GRP
+        if [[ $GRP =~ ".git" ]]
+        then
+        	D=$(pwd)
+	        git remote add --mirror=push gitlab git@gitlab.com:supercdms/${D:10}
+	        git push gitlab
+        	cd ..
+    	else
+			REPOS=$(find . -maxdepth 1 -mindepth 1 -type d -printf '%f ')
+            for REPO in $REPOS
+            do
+                cd $REPO
+                git push gitlab
+                cd ..
+            done
+            cd ..
+        fi
+    done
+}
+
+function git-upd-mirrors(){
+        # Move to repository host directory
+        cd /data/git
+
+        # Create and iterate two lists of subdirectories
+        # (ie groups and repositories)
+
+        GRPS=$(find . -maxdepth 1 -mindepth 1 -type d -printf '%f ')
+
+        for GRP in $GRPS
+        do
+            cd $GRP
+            if [[ $GRP =~ ".git" ]]
+            then
+                git push gitlab
+                cd ..
+            else
+                echo "----------------------------------------------------"
+                echo "Updating Repositories in Group: $GRP"
+                REPOS=$(find . -maxdepth 1 -mindepth 1 -type d -printf '%f ')
+                for REPO in $REPOS
+                do
+                    cd $REPO
+                    git push gitlab
+                    cd ..
+                done
+                cd ..
+            fi
+        done
+}

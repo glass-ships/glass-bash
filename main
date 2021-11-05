@@ -118,9 +118,9 @@ PS1="\[\n\]\[$pTIME\]\[$pDIR\]\[\n\]\[$pWHO\] $ "
 unset SSH_ASKPASS
 unset GIT_ASKPASS
 
-# source aliases, functions, and shell options
+# source custom stuff
 source $DIR/functions
 source $DIR/aliases
 source $DIR/options
-
+source $DIR/secrets
 unset DIR
