@@ -20,6 +20,8 @@ This repository is designed to add some dazzle and utility to a fresh stock bash
   - etc. (see `bash_env/aliases` for the rest)
 - An `options` file with commentable options like extended regex matching and history file appending
 - An example ssh config file, gets placed by `init.sh` script
+- A vimrc to make vim behave the way I personally like it to :) 
+- A secrets-template which is sourced, for exporting secrets as environment variables
 
 ## Installation
 
@@ -32,4 +34,6 @@ This repository is designed to add some dazzle and utility to a fresh stock bash
 2. Initialize new environment:
 ``$ bash bash_env/init.sh``
 
-3. Enjoy!
+3. Rename `secrets-template` to `secrets` and enter your private things to keep them save (`secrets` is ignored, so you never have to worry about accidentally pushing your API keys or anything)
+
+4. Enjoy!
