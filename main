@@ -125,6 +125,6 @@ unset GIT_ASKPASS
 source $DIR/functions
 source $DIR/aliases
 source $DIR/options
-source $DIR/secrets
+#source $DIR/secrets
 
 unset DIR

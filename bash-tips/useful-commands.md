@@ -1,6 +1,10 @@
+### Bash Tips
+
+Some useful code chunks for navigating the world of Bash
+
 - Set script location as working directory
     ```bash
-    #!/bin/bash
+    #!/usr/bin/env bash
     export DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
     echo Script directory: $DIR
     ```
