@@ -4,36 +4,47 @@ This repository is designed to add some dazzle and utility to a fresh stock bash
 
 ## What's included
 
-- An `init.sh` script which moves things where they need to, initializes an ssh key, and sets the git username/email
-  - **Note - this init script sets me as the default git user; you may want to adjust this to reflect your own authorship**
-- A template `bashrc` file you can use and add onto
-  - I recommend putting any environment variable and script sourcing into your `.bashrc` for organization and to help ensure that your env variables after everything else
-- A `main` file sourced by `bashrc` which handles most of the shell configuration, such as: 
-  - Fully colorized command prompt with extra info such as time, user, host, and working directory
-  - Colorize errors, ls, etc. 
-  - bash_completion
-  - force git and ssh password entry in command line
-- Files for `aliases` and `functions` containing helpful commands like:
-  - `cs` to `ls` after a `cd`
-  - `pls` does a `sudo` with the user's PATH in tact
-  - `env` is sorted by default, for readability
-  - etc. (see `bash_env/aliases` for the rest)
-- An `options` file with commentable options like extended regex matching and history file appending
-- An example ssh config file, gets placed by `init.sh` script
-- A vimrc to make vim behave the way I personally like it to :) 
-- A secrets-template which is sourced, for exporting secrets as environment variables
+- [`setup.sh`](setup.sh): A script that moves things where they need to, initializes an ssh key, and sets the git username/email
+
+- [`main`](main): File sourced by `~/.bashrc` that handles most of the shell configuration, such as: 
+    - Fully colorized command prompt with extra info such as time, user, host, and working directory
+    - Colorize errors, ls, etc. 
+    - bash_completion
+    - force git and ssh password entry in command line
+  
+- [`aliases`](aliases): Contains several convenience alias such as:
+    - `pls` does a `sudo` with the user's PATH in tact
+    - `env` is sorted by default, for readability
+    - `docker-cleanup` removes any dangling Docker images
+    - etc. 
+
+- [`functions`](functions): Contains some useful functions such as:
+    - `cs` does a `cd` then `ls`
+    - `git_file_gl` downloads a single file from a GitLab repository
+
+- [`options`](options): File with commentable options like extended regex matching and history file appending
+
+- [ssh-config](ssh-config): An example ssh config file, gets placed by `secret.sh`
+
+- [`vimrc`](vimrc): To make vim behave the way I personally like it to :) gets placed by `secret.sh`
+
+- [`secrets-template`](secrets-template): A template for file exporting any API keys or secrets as environment variables
 
 ## Installation
 
-0. Move to home dir:
-``$ cd ~``
-
 1. Clone the repo:
-``$ git clone http://github.com/glass-ships/bash_env.git``
+`$ git clone http://github.com/glass-ships/glass-bash.git`
 
 2. Initialize new environment:
-``$ bash bash_env/init.sh``
+`$ cd glass-bash && bash setup.sh`
 
-3. Rename `secrets-template` to `secrets` and enter your private things to keep them save (`secrets` is ignored, so you never have to worry about accidentally pushing your API keys or anything)
+3. Rename `secrets-template` to `secrets` and enter your private things to keep them save 
+    - `secrets` is ignored, so your secrets are safe if you contribute to this repository
 
 4. Enjoy!
+
+## Contributing
+
+This repo could probably use some regular TLC. If you're interested in helping out, just create an issue, or fork the repo and merge request back in! 
+
+<3 Glass

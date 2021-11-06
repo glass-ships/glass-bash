@@ -1,26 +1,35 @@
 #!/usr/bin/env bash
 
-# general
+### General ###
 
-alias ll='ls -alF'
-alias la='ls -A'
 alias l='ls -CF'
+alias la='ls -A'
+alias ll='ls -alF'
 
-alias env='env | sort'
-alias grep='grep -n'
-alias sfind='sudo find / -name '$@''
-alias howbig='du -csh '$@''
+alias env='env | sort' # sorted env
+
+alias grep='grep -n' # always grep with line numbers
+
+alias sfind='sudo find / -name '$@'' # search entire filesystem for a value
+
+alias howbig='du -csh '$@'' # check how big a directory is
+
 alias docker-cleanup='docker rmi $(docker images -f "dangling=true" -q)'
-alias pls='sudo -E '
+
+alias pls='sudo -E ' # sudo with user PATH
+
 alias wat='whoami && hostname'
 
-# git 
+### Git ###
+
 alias gs='git status'
+
+# check if repo has a newer version to be pulled
 alias gc='[ "`git log --pretty=%H ...refs/heads/master^ | head -n 1`" = "`git ls-remote origin -h refs/heads/master |cut -f1`" ] && echo "up to date" || echo "not up to date"'
 
-# ssh
+### SSH ###
 #alias ssh='ssh -X'
 alias sshpipe='ssh -L 8888:localhost:8888'
 
-# extras
+### Extras ###
 alias jlab='jupyter-lab --no-browser'
