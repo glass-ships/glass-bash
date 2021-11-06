@@ -122,9 +122,9 @@ unset SSH_ASKPASS
 unset GIT_ASKPASS
 
 # source custom stuff
-source $DIR/functions
-source $DIR/aliases
-source $DIR/options
-#source $DIR/secrets
+source $DIR/scripts/functions
+source $DIR/scripts/aliases
+source $DIR/scripts/options
+source $DIR/scripts/secrets
 
 unset DIR
