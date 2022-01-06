@@ -33,4 +33,7 @@ git config --global core.excludesfile '~/.gitignore'
 echo '.ipynb_checkpoints' >> ~/.gitignore
 echo '*/.ipynb_checkpoints' >> ~/.gitignore
 
+# set default name for new git repos
+git config --global init.defaultBranch main
+
 echo -e '\nglass-bash setup is complete!\n'
