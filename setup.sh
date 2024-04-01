@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 echo Script directory: $DIR
 
@@ -8,7 +9,7 @@ grep -qxF 'source '$DIR'/main' $HOME/.bashrc || echo 'source '$DIR'/main' >> $HO
 
 # VIM settings
 echo -e '\nCopying VIM settings...\n'
-cp ./vimrc $HOME/.vimrc
+cp ./.vimrc $HOME/.vimrc
 
 # make sure an SSH key exists, copy config
 echo -e '\nChecking for SSH key...\n'
@@ -16,14 +17,14 @@ if [ ! -e $HOME/.ssh ]; then
     echo -e '\nCreating SSH key...\n'
     ssh-keygen -t rsa
     #cp ./ssh-config $HOME/.ssh/config
-else;
+else
     echo -e '\n\e[95mNOTICE\e[0m: ssh key already exists.'
 fi
 
 # set git user info
 echo -e '\nSetting Git user info...\n'
-read -l -P 'Please enter your Git username: ' gituser
-read -l -P 'Please enter your Git email: ' gitemail
+read -p "Please enter your Git username: " gituser
+read -p "Please enter your Git email: " gitemail
 git config --global user.name "$gituser"
 git config --global user.email "$gitemail"
 
