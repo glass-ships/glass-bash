@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# trim whitespace
+# trim whitespace (leading and trailing only)
 function trim() {
 	local var="$*"
 	# remove leading whitespace characters
@@ -45,7 +45,7 @@ function pull-all() {
 	local current_dir=$(pwd)
 	for dir in "$@"; do
 		cd $dir
-		printf "\nPulling all repos in $pwd...\n"
+		printf "\nPulling all repos in $(pwd)...\n"
 		for repo in $(ls -d */); do
 			# if repo is a directory and has a .git directory
 			[[ -d $repo && -d $repo/.git ]] || continue
@@ -54,11 +54,16 @@ function pull-all() {
 			git pull
 			cd ..
 		done
-		printf "\nDone pulling all repos in $pwd."
+		printf "\nDone pulling all repos in $(pwd).\n"
 		if [[ $current_dir != $dir ]]; then
 			cd $current_dir
 		fi
 	done
+}
+
+function git-cleanup-branches() {
+	# git branch --merged | grep -v "\*" | xargs -n 1 git branch -d
+	git branch --merged main | grep -v '^[ *]*main$' | xargs -d'\n' git branch -d
 }
 
 # git some file
