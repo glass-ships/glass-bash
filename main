@@ -1,12 +1,14 @@
 #! /usr/bin/env bash
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
+####################
 ### Boring stuff ###
+####################
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 # don't put duplicate lines or lines starting with space in the history. See bash(1) for more options
@@ -21,36 +23,35 @@ HISTFILESIZE=2000
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
+	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+	alias ls='ls --color=auto'
+	alias dir='dir --color=auto'
+	alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+	alias grep='grep --color=auto'
+	alias fgrep='fgrep --color=auto'
+	alias egrep='egrep --color=auto'
 fi
 
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# enable programmable completion features 
+# enable programmable completion features
 # (you don't need to enable this, if it's already enabled
 # in /etc/bash.bashrc, as /etc/profile sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+	if [ -f /usr/share/bash-completion/bash_completion ]; then
+		. /usr/share/bash-completion/bash_completion
+	elif [ -f /etc/bash_completion ]; then
+		. /etc/bash_completion
+	fi
 fi
 
 # get current branch in git repo
 function parse_git_branch() {
-	BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-	if [ ! "${BRANCH}" == "" ]
-	then
-		STAT=`parse_git_dirty`
+	BRANCH=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+	if [ ! "${BRANCH}" == "" ]; then
+		STAT=$(parse_git_dirty)
 		echo "[${BRANCH}${STAT}]"
 	else
 		echo ""
@@ -59,13 +60,31 @@ function parse_git_branch() {
 
 # get current status of git repo
 function parse_git_dirty {
-	status=`git status 2>&1 | tee`
-	dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
-	untracked=`echo -n "${status}" 2> /dev/null | grep "Untracked files" &> /dev/null; echo "$?"`
-	ahead=`echo -n "${status}" 2> /dev/null | grep "Your branch is ahead of" &> /dev/null; echo "$?"`
-	newfile=`echo -n "${status}" 2> /dev/null | grep "new file:" &> /dev/null; echo "$?"`
-	renamed=`echo -n "${status}" 2> /dev/null | grep "renamed:" &> /dev/null; echo "$?"`
-	deleted=`echo -n "${status}" 2> /dev/null | grep "deleted:" &> /dev/null; echo "$?"`
+	status=$(git status 2>&1 | tee)
+	dirty=$(
+		echo -n "${status}" 2>/dev/null | grep "modified:" &>/dev/null
+		echo "$?"
+	)
+	untracked=$(
+		echo -n "${status}" 2>/dev/null | grep "Untracked files" &>/dev/null
+		echo "$?"
+	)
+	ahead=$(
+		echo -n "${status}" 2>/dev/null | grep "Your branch is ahead of" &>/dev/null
+		echo "$?"
+	)
+	newfile=$(
+		echo -n "${status}" 2>/dev/null | grep "new file:" &>/dev/null
+		echo "$?"
+	)
+	renamed=$(
+		echo -n "${status}" 2>/dev/null | grep "renamed:" &>/dev/null
+		echo "$?"
+	)
+	deleted=$(
+		echo -n "${status}" 2>/dev/null | grep "deleted:" &>/dev/null
+		echo "$?"
+	)
 	bits=''
 	if [ "${renamed}" == "0" ]; then
 		bits=">${bits}"
@@ -92,39 +111,40 @@ function parse_git_dirty {
 	fi
 }
 
+##################
 ### Cool stuff ###
+##################
 
-## Customize cmd prompt
+# Colors (to change colors, change "XXX" in "\e[38;5;XXXm\]")
+cRed="\[\e[0;31m\]"
+cPurp="\[\e[38;5;62m\]"
+cYel="\[\e[38;5;221m\]"
+cPink="\[\e[38;5;201m\]"
+cCyan="\[\e[38;5;87m\]"
+cWhite="\[\e[38;5;255m\]"
 
-# this one works while i figure out what's wrong with the below method
-PS1="\[\n\]\[\033[38;5;57m\][\[$(tput sgr0)\]\[\033[38;5;226m\]\A\[$(tput sgr0)\]\[\033[38;5;57m\]]\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;14m\]\w\[$(tput sgr0)\]\n\[$(tput sgr0)\]\[\033[38;5;213m\]\u\[$(tput sgr0)\]\[\033[38;5;226m\]@\[$(tput sgr0)\]\[\033[38;5;141m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;11m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
+# Prompt
+pTIME="\[$cYel\][\[$cPurp\]\t\[$cYel\]]\[\e[m\]"
+pWHO="\[$cCyan\]\[\u\]\[$cPink\]@\[$cCyan\]\[\h\]\[\e[m\]"
+# pGIT="\[$cPink\]\[\`parse_git_dirty\`\] "
+pGIT=" \[$cPink\]\[\`parse_git_branch\`\]"
+pDIR="\[$cCyan\]\[\w\]\[$cPink\]$pGIT\[\e[m\]"
+PS1="\[\n\]$pTIME $pDIR\[\n\]$pWHO $cYel$ $cWhite"
 
-# to change colors c0-4, change "XXX" in "\e[38;5;XXXm\]"
-# red
-c0="\[\e[0;31m\]"
-# purple (alt use 35m)
-c1="\[\e[38;5;62m\]" 
-# yellow (alt use 33m)
-c2="\[\e[38;5;221m\]"
-# pink 
-c3="\[\e[38;5;201m\]"
-# cyan (alt use 36m)
-c4="\[\e[38;5;87m\]"
+# Backup option in case of issues with the above prompt
+# PS1="\[\n\]\[\033[38;5;57m\][\[$(tput sgr0)\]\[\033[38;5;226m\]\A\[$(tput sgr0)\]\[\033[38;5;57m\]]\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;14m\]\w\[$(tput sgr0)\]\n\[$(tput sgr0)\]\[\033[38;5;213m\]\u\[$(tput sgr0)\]\[\033[38;5;226m\]@\[$(tput sgr0)\]\[\033[38;5;141m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;11m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
 
-#pTIME="\[$c2\][\[$c1\]\t\[$c2\]]\[\e[m\]"
-#pWHO="\[$c4\]\[\u\]\[$c3\]@\[$c2\]\[\h\]\[\e[m\]"
-#pGIT="\[$c3\]\[\`parse_git_dirty\`\] "
-#pDIR="\[$c4\]\[\w\]\[$c3\]$pGIT\[\e[m\]"
-#PS1="\[\n\]$pTIME $pDIR\[\n\]$pWHO $ "
-
-# force command-line username/password entry in git and ssh
+# Force command-line username/password entry in git and ssh
 unset SSH_ASKPASS
 unset GIT_ASKPASS
 
-# source custom stuff
+# Source custom stuff
 source $DIR/scripts/functions.sh
 source $DIR/scripts/aliases.sh
 source $DIR/scripts/options.sh
 source $DIR/scripts/secrets.sh
+source $DIR/scripts/work.sh
+
+####################
 
 unset DIR

@@ -13,7 +13,7 @@ alias upd='sudo apt update -y && sudo apt full-upgrade -y'
 ### Directory Navigation ###
 alias home='cd ~'
 alias dev='cd ~/dev'
-alias -='cd -'
+alias -- -='cd -'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
