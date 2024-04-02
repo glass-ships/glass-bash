@@ -34,7 +34,7 @@ DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 # # Colored GCC warnings and errors
 # export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# # enable programmable completion features
+# # Enable programmable completion features
 # # (you don't need to enable this, if it's already enabled
 # # in /etc/bash.bashrc, as /etc/profile sources /etc/bash.bashrc).
 # if ! shopt -oq posix; then
@@ -132,36 +132,49 @@ function parse_git_dirty {
 #----------------------#
 # Customize cmd prompt #
 #----------------------#
-# To change colors below, change "AAA" in "\e[38;5;AAAm\]"
 
-# this one works while i figure out what's wrong with below method
-PS1="\[\n\]\[\033[38;5;57m\][\[$(tput sgr0)\]\[\033[38;5;226m\]\A\[$(tput sgr0)\]\[\033[38;5;57m\]]\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;14m\]\w\[$(tput sgr0)\]\n\[$(tput sgr0)\]\[\033[38;5;213m\]\u\[$(tput sgr0)\]\[\033[38;5;226m\]@\[$(tput sgr0)\]\[\033[38;5;141m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;11m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
+# Colors (to change colors, change "AAA" in "\e[38;5;AAAm\]")
+cRed="\[\e[0;31m\]"
+cPurp="\[\e[38;5;62m\]"
+cYel="\[\e[38;5;221m\]"
+cPink="\[\e[38;5;201m\]"
+cCyan="\[\e[38;5;87m\]"
+cWhite="\[\e[38;5;255m\]"
+# c0="\[\e[0;31m\]"     # red
+# c1="\[\e[38;5;62m\]"  # purple (alt use 35m)
+# c2="\[\e[38;5;221m\]" # yellow (alt use 33m)
+# c3="\[\e[38;5;201m\]" # pink
+# c4="\[\e[38;5;87m\]"  # cyan (alt use 36m)
 
-c0="\[\e[0;31m\]"     # red
-c1="\[\e[38;5;62m\]"  # purple (alt use 35m)
-c2="\[\e[38;5;221m\]" # yellow (alt use 33m)
-c3="\[\e[38;5;201m\]" # pink
-c4="\[\e[38;5;87m\]"  # cyan (alt use 36m)
-# pTIME="\[$c2\][\[$c1\]\t\[$c2\]]\[\e[m\]"
-# pWHO="\[$c4\]\[\u\]\[$c3\]@\[$c2\]\[\h\]\[\e[m\]"
-# pGIT="\[$c3\]\[\`parse_git_dirty\`\] "
-# pDIR="\[$c4\]\[\w\]\[$c3\]$pGIT\[\e[m\]"
-# PS1="\[\n\]$pTIME $pDIR\[\n\]$pWHO $ "
+# Prompt
+pTIME="\[$cYel\][\[$cPurp\]\t\[$cYel\]]\[\e[m\]"
+pWHO="\[$cCyan\]\[\u\]\[$cPink\]@\[$cCyan\]\[\h\]\[\e[m\]"
+# pGIT="\[$cPink\]\[\`parse_git_dirty\`\] "
+pGIT=" \[$cPink\]\[\`parse_git_branch\`\]"
+pDIR="\[$cCyan\]\[\w\]\[$cPink\]$pGIT\[\e[m\]"
+PS1="\[\n\]$pTIME $pDIR\[\n\]$pWHO $cYel$ $cWhite"
 
-#----------------------#
-# Extra settings, etc. #
-#----------------------#
+# Backup option in case of issues with the above prompt
+# PS1="\[\n\]\[\033[38;5;57m\][\[$(tput sgr0)\]\[\033[38;5;226m\]\A\[$(tput sgr0)\]\[\033[38;5;57m\]]\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;14m\]\w\[$(tput sgr0)\]\n\[$(tput sgr0)\]\[\033[38;5;213m\]\u\[$(tput sgr0)\]\[\033[38;5;226m\]@\[$(tput sgr0)\]\[\033[38;5;141m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;11m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
 
-# Force command-line username/password entry in git and ssh
+#---------------------------------------#
+# Force CLI credentials for git and ssh #
+#---------------------------------------#
 unset SSH_ASKPASS
 unset GIT_ASKPASS
 
-# Source custom stuff
+#---------------------#
+# Source custom stuff #
+#---------------------#
 for file in $DIR/scripts/*; do
 	source $file
 done
 
-# eval "$(starship init bash)"
+#--------------#
+# Extra config #
+#--------------#
 eval "$(direnv hook bash)"
+# eval "$(starship init bash)"
 
+########################################################################################
 unset DIR

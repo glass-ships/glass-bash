@@ -1,1 +1,0 @@
-/home/glass/dev/glass-secrets/secrets.sh
