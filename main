@@ -1,71 +1,104 @@
 #! /usr/bin/env bash
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
+####################
 ### Boring stuff ###
+####################
 
-# If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
+# This section may not be necessary, as most of it already exists
+# in the default .bashrc file. I'm keeping it here for reference for now.
 
-# don't put duplicate lines or lines starting with space in the history. See bash(1) for more options
-HISTCONTROL=ignoreboth
+# # If not running interactively, don't do anything
+# case $- in
+# *i*) ;;
+# *) return ;;
+# esac
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+# # No duplicate lines or lines starting with space in history. See bash(1) for more options
+# HISTCONTROL=ignoreboth
 
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+# # Set history length. See HISTSIZE and HISTFILESIZE in bash(1)
+# HISTSIZE=1000
+# HISTFILESIZE=2000
 
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
+# # Make less more friendly for non-text input files, see lesspipe(1)
+# [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+# # Enable color support of ls and also add handy aliases
+# if [ -x /usr/bin/dircolors ]; then
+# 	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+# 	alias dir='dir --color=auto'
+# 	alias vdir='vdir --color=auto'
+# fi
+
+# # Colored GCC warnings and errors
+# export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# # enable programmable completion features
+# # (you don't need to enable this, if it's already enabled
+# # in /etc/bash.bashrc, as /etc/profile sources /etc/bash.bashrc).
+# if ! shopt -oq posix; then
+# 	if [ -f /usr/share/bash-completion/bash_completion ]; then
+# 		. /usr/share/bash-completion/bash_completion
+# 	elif [ -f /etc/bash_completion ]; then
+# 		. /etc/bash_completion
+# 	fi
+# fi
+
+#########################
+### Environment Setup ###
+#########################
+
+export XDG_CONFIG_HOME="$HOME/.config"
+
+if [ -f $DIR/secrets.sh ]; then
+   echo "Secrets file exists."
+else
+   echo "No secrets file found."
 fi
 
-# colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+#-----------#
+# Git stuff #
+#-----------#
 
-# enable programmable completion features 
-# (you don't need to enable this, if it's already enabled
-# in /etc/bash.bashrc, as /etc/profile sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-
-# get current branch in git repo
+# Get current branch in git repo
 function parse_git_branch() {
-	BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-	if [ ! "${BRANCH}" == "" ]
-	then
-		STAT=`parse_git_dirty`
+	BRANCH=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+	if [ ! "${BRANCH}" == "" ]; then
+		STAT=$(parse_git_dirty)
 		echo "[${BRANCH}${STAT}]"
 	else
 		echo ""
 	fi
 }
 
-# get current status of git repo
+# Get current status of git repo
 function parse_git_dirty {
-	status=`git status 2>&1 | tee`
-	dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
-	untracked=`echo -n "${status}" 2> /dev/null | grep "Untracked files" &> /dev/null; echo "$?"`
-	ahead=`echo -n "${status}" 2> /dev/null | grep "Your branch is ahead of" &> /dev/null; echo "$?"`
-	newfile=`echo -n "${status}" 2> /dev/null | grep "new file:" &> /dev/null; echo "$?"`
-	renamed=`echo -n "${status}" 2> /dev/null | grep "renamed:" &> /dev/null; echo "$?"`
-	deleted=`echo -n "${status}" 2> /dev/null | grep "deleted:" &> /dev/null; echo "$?"`
+	status=$(git status 2>&1 | tee)
+	dirty=$(
+		echo -n "${status}" 2>/dev/null | grep "modified:" &>/dev/null
+		echo "$?"
+	)
+	untracked=$(
+		echo -n "${status}" 2>/dev/null | grep "Untracked files" &>/dev/null
+		echo "$?"
+	)
+	ahead=$(
+		echo -n "${status}" 2>/dev/null | grep "Your branch is ahead of" &>/dev/null
+		echo "$?"
+	)
+	newfile=$(
+		echo -n "${status}" 2>/dev/null | grep "new file:" &>/dev/null
+		echo "$?"
+	)
+	renamed=$(
+		echo -n "${status}" 2>/dev/null | grep "renamed:" &>/dev/null
+		echo "$?"
+	)
+	deleted=$(
+		echo -n "${status}" 2>/dev/null | grep "deleted:" &>/dev/null
+		echo "$?"
+	)
 	bits=''
 	if [ "${renamed}" == "0" ]; then
 		bits=">${bits}"
@@ -92,39 +125,43 @@ function parse_git_dirty {
 	fi
 }
 
+##################
 ### Cool stuff ###
+##################
 
-## Customize cmd prompt
+#----------------------#
+# Customize cmd prompt #
+#----------------------#
+# To change colors below, change "AAA" in "\e[38;5;AAAm\]"
 
-# this one works while i figure out what's wrong with the below method
+# this one works while i figure out what's wrong with below method
 PS1="\[\n\]\[\033[38;5;57m\][\[$(tput sgr0)\]\[\033[38;5;226m\]\A\[$(tput sgr0)\]\[\033[38;5;57m\]]\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;14m\]\w\[$(tput sgr0)\]\n\[$(tput sgr0)\]\[\033[38;5;213m\]\u\[$(tput sgr0)\]\[\033[38;5;226m\]@\[$(tput sgr0)\]\[\033[38;5;141m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;11m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
 
-# to change colors c0-4, change "XXX" in "\e[38;5;XXXm\]"
-# red
-c0="\[\e[0;31m\]"
-# purple (alt use 35m)
-c1="\[\e[38;5;62m\]" 
-# yellow (alt use 33m)
-c2="\[\e[38;5;221m\]"
-# pink 
-c3="\[\e[38;5;201m\]"
-# cyan (alt use 36m)
-c4="\[\e[38;5;87m\]"
+c0="\[\e[0;31m\]"     # red
+c1="\[\e[38;5;62m\]"  # purple (alt use 35m)
+c2="\[\e[38;5;221m\]" # yellow (alt use 33m)
+c3="\[\e[38;5;201m\]" # pink
+c4="\[\e[38;5;87m\]"  # cyan (alt use 36m)
+# pTIME="\[$c2\][\[$c1\]\t\[$c2\]]\[\e[m\]"
+# pWHO="\[$c4\]\[\u\]\[$c3\]@\[$c2\]\[\h\]\[\e[m\]"
+# pGIT="\[$c3\]\[\`parse_git_dirty\`\] "
+# pDIR="\[$c4\]\[\w\]\[$c3\]$pGIT\[\e[m\]"
+# PS1="\[\n\]$pTIME $pDIR\[\n\]$pWHO $ "
 
-#pTIME="\[$c2\][\[$c1\]\t\[$c2\]]\[\e[m\]"
-#pWHO="\[$c4\]\[\u\]\[$c3\]@\[$c2\]\[\h\]\[\e[m\]"
-#pGIT="\[$c3\]\[\`parse_git_dirty\`\] "
-#pDIR="\[$c4\]\[\w\]\[$c3\]$pGIT\[\e[m\]"
-#PS1="\[\n\]$pTIME $pDIR\[\n\]$pWHO $ "
+#----------------------#
+# Extra settings, etc. #
+#----------------------#
 
-# force command-line username/password entry in git and ssh
+# Force command-line username/password entry in git and ssh
 unset SSH_ASKPASS
 unset GIT_ASKPASS
 
-# source custom stuff
-source $DIR/scripts/functions
-source $DIR/scripts/aliases
-source $DIR/scripts/options
-source $DIR/scripts/secrets
+# Source custom stuff
+for file in $DIR/scripts/*; do
+	source $file
+done
+
+# eval "$(starship init bash)"
+eval "$(direnv hook bash)"
 
 unset DIR
