@@ -52,9 +52,9 @@ DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 export XDG_CONFIG_HOME="$HOME/.config"
 
 if [ -f $DIR/secrets.sh ]; then
-   echo "Secrets file exists."
+	echo "Secrets file exists."
 else
-   echo "No secrets file found."
+	echo "No secrets file found."
 fi
 
 #-----------#
@@ -173,8 +173,19 @@ done
 #--------------#
 # Extra config #
 #--------------#
-eval "$(direnv hook bash)"
-# eval "$(starship init bash)"
+
+if command -v direnv &>/dev/null; then
+	eval "$(direnv hook bash)"
+fi
+
+if command -v starship &>/dev/null; then
+	eval "$(starship init bash)"
+fi
+
+if [ -f ~/.cargo/bin ]; then
+	export PATH="$HOME/.cargo/bin:$PATH"
+	. "$HOME/.cargo/env"
+fi
 
 ########################################################################################
 unset DIR
