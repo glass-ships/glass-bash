@@ -1,17 +1,25 @@
 #!/usr/bin/env bash
 
-### General ###
+#---------#
+# General #
+#---------#
 
-alias ll='ls -al1vF'
+# Add an "alert" alias for long running commands.  Use like so:
+# $ sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
 alias env='env | sort'               # sorted env
 alias grep='grep -n'                 # always grep with line numbers
+alias howbig='du -csh '$@''          # check how big a directory is
 alias pls='sudo -E '                 # sudo with user PATH
 alias sfind='sudo find / -name '$@'' # search entire filesystem for a value
-alias howbig='du -csh '$@''          # check how big a directory is
 alias upd='sudo apt update -y && sudo apt full-upgrade -y'
 
-### Directory Navigation ###
-alias home='cd ~'
+#------------#
+# Navigation #
+#------------#
+
+alias ll='ls -al1vF --color=auto'
 alias dev='cd ~/dev'
 alias -- -='cd -'
 alias ..='cd ..'
@@ -20,13 +28,23 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
-### Python/Poetry ###
+#---------------------#
+# Python/Poetry/Conda #
+#---------------------#
 
 alias wpy='which python'
+alias pyver='python --version'
+
+alias c='conda'
+alias cenv='conda env list'
+alias cact='conda activate'
+
 alias poetry-clear='poetry cache clear _default_cache --all && poetry cache clear PyPI --all'
 alias jlab='jupyter lab --no-browser' # start jupyter lab
 
-### Git ###
+#-----#
+# Git #
+#-----#
 
 alias gs='git status'
 alias gco='git checkout'
@@ -39,16 +57,22 @@ alias gpop='git stash pop'
 alias gsl='git stash list'
 alias grpo='git remote prune origin'
 
-### Docker ###
+#--------#
+# Docker #
+#--------#
 
-alias docker-cleanup='docker rmi $(docker images -f "dangling=true" -q)'
-alias docker-rm-containers='docker rm $(docker ps -a -q)'
+alias docker-cleanup='docker rmi (docker images -f "dangling=true" -q)'
+alias docker-rm-containers='docker rm (docker ps -a -q)'
 
-### GCP ###
+#-----#
+# GCP #
+#-----#
 
 alias gcssh='gcloud compute ssh'
 
-### Misc ###
+#------#
+# Misc #
+#------#
 
 alias get-spotify-playlists="cd ~/dev/spotipy-stuff && poetry -C ~/dev/DISCORD/compass-bot run python scripts/download_spotify_playlists.py -u oceanblocker && cd -"
 alias install-rust="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
