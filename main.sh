@@ -166,7 +166,7 @@ unset GIT_ASKPASS
 #---------------------#
 # Source custom stuff #
 #---------------------#
-for file in $DIR/scripts/*; do
+for file in $DIR/scripts/*.sh; do
 	source $file
 done
 
