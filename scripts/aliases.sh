@@ -7,11 +7,11 @@
 # Add an "alert" alias for long running commands.  Use like so:
 # $ sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
 alias env='env | sort'               # sorted env
 alias grep='grep -n'                 # always grep with line numbers
 alias howbig='du -csh '$@''          # check how big a directory is
 alias pls='sudo -E '                 # sudo with user PATH
+alias res='echo $?'                  # echo the last command's exit status
 alias sfind='sudo find / -name '$@'' # search entire filesystem for a value
 alias upd='sudo apt update -y && sudo apt full-upgrade -y'
 
