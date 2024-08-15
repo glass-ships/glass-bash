@@ -134,25 +134,20 @@ function parse_git_dirty {
 #----------------------#
 
 # Colors (to change colors, change "AAA" in "\e[38;5;AAAm\]")
-cRed="\[\e[0;31m\]"
-cPurp="\[\e[38;5;62m\]"
-cYel="\[\e[38;5;221m\]"
-cPink="\[\e[38;5;201m\]"
-cCyan="\[\e[38;5;87m\]"
-cWhite="\[\e[38;5;255m\]"
-# c0="\[\e[0;31m\]"     # red
-# c1="\[\e[38;5;62m\]"  # purple (alt use 35m)
-# c2="\[\e[38;5;221m\]" # yellow (alt use 33m)
-# c3="\[\e[38;5;201m\]" # pink
-# c4="\[\e[38;5;87m\]"  # cyan (alt use 36m)
+RED="\[\[\e[0;31m\]\]"
+PURPLE="\[\[\e[38;5;62m\]\]"	# (alt use 35m)
+YELLOW="\[\[\e[38;5;221m\]\]" 	# (alt use 33m)
+PINK="\[\[\e[38;5;201m\]\]"
+CYAN="\[\[\e[38;5;87m\]\]"		# (alt use 36m)
+WHITE="\[\[\e[38;5;255m\]\]"
 
 # Prompt
-pTIME="\[$cYel\][\[$cPurp\]\t\[$cYel\]]\[\e[m\]"
-pWHO="\[$cCyan\]\[\u\]\[$cPink\]@\[$cCyan\]\[\h\]\[\e[m\]"
-# pGIT="\[$cPink\]\[\`parse_git_dirty\`\] "
-pGIT=" \[$cPink\]\[\`parse_git_branch\`\]"
-pDIR="\[$cCyan\]\[\w\]\[$cPink\]$pGIT\[\e[m\]"
-PS1="\[\n\]$pTIME $pDIR\[\n\]$pWHO $cYel$ $cWhite"
+pTIME="\[$YELLOW\][\[$PURPLE\]\t\[$YELLOW\]]\[\e[m\]"
+pWHO="\[$CYAN\]\[\u\]\[$PINK\]@\[$CYAN\]\[\h\]\[\e[m\]"
+pGIT=" \[$PINK\]\[\`parse_git_branch\`\]"
+pDIR="\[$CYAN\]\[\w\]\[$PINK\]$pGIT\[\e[m\]"
+# PS1="\[\n\]$pTIME $pDIR\[\n\]$pWHO $YELLOW$ $WHITE"
+PS1="\[\n\]$pTIME $pDIR\[\n\]$pWHO \[$YELLOW\]$\[$WHITE\] "
 
 # Backup option in case of issues with the above prompt
 # PS1="\[\n\]\[\033[38;5;57m\][\[$(tput sgr0)\]\[\033[38;5;226m\]\A\[$(tput sgr0)\]\[\033[38;5;57m\]]\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;14m\]\w\[$(tput sgr0)\]\n\[$(tput sgr0)\]\[\033[38;5;213m\]\u\[$(tput sgr0)\]\[\033[38;5;226m\]@\[$(tput sgr0)\]\[\033[38;5;141m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;11m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"

@@ -28,10 +28,9 @@ git config --global user.name "$gituser"
 git config --global user.email "$gitemail"
 
 # Set git to globally ignore ipynb_checkpoints
-echo -e '\nSetting Git default ignores...\n'
+rm -f ~/.gitignore
+ln -s $DIR/gitignore ~/.gitignore
 git config --global core.excludesfile '~/.gitignore'
-echo '.ipynb_checkpoints' >>~/.gitignore
-echo '*/.ipynb_checkpoints' >>~/.gitignore
 
 # Set default name for new git repos
 git config --global init.defaultBranch main
