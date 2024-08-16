@@ -52,10 +52,16 @@ DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 export XDG_CONFIG_HOME="$HOME/.config"
 
 if [ -f $DIR/secrets.sh ]; then
-	echo "Secrets file exists."
+	# echo "Secrets file exists."
+	source $DIR/secrets.sh
 else
-	echo "No secrets file found."
+	# echo "No secrets file found."
+	:
 fi
+
+##################
+### Cool stuff ###
+##################
 
 #-----------#
 # Git stuff #
@@ -125,29 +131,36 @@ function parse_git_dirty {
 	fi
 }
 
-##################
-### Cool stuff ###
-##################
+# Get colorized exit code
+function parse_exit_code() {
+	EXIT_CODE=$?
+	if [ $EXIT_CODE -eq 0 ]; then
+		echo -e "\e[0;32m"
+	else
+		echo -e "\e[0;31m"
+	fi
+}
 
 #----------------------#
 # Customize cmd prompt #
 #----------------------#
 
 # Colors (to change colors, change "AAA" in "\e[38;5;AAAm\]")
-RED="\[\[\e[0;31m\]\]"
-PURPLE="\[\[\e[38;5;62m\]\]"	# (alt use 35m)
-YELLOW="\[\[\e[38;5;221m\]\]" 	# (alt use 33m)
-PINK="\[\[\e[38;5;201m\]\]"
-CYAN="\[\[\e[38;5;87m\]\]"		# (alt use 36m)
-WHITE="\[\[\e[38;5;255m\]\]"
+RED="\[\e[0;31m\]"
+PURPLE="\[\e[38;5;62m\]"	# (alt use 35m)
+YELLOW="\[\e[38;5;221m\]" 	# (alt use 33m)
+PINK="\[\e[38;5;201m\]"
+CYAN="\[\e[38;5;87m\]"		# (alt use 36m)
+WHITE="\[\e[38;5;255m\]"
+RESTORE="\[\033[0m\]"		# 0m restores to the terminal's default colour
 
 # Prompt
-pTIME="\[$YELLOW\][\[$PURPLE\]\t\[$YELLOW\]]\[\e[m\]"
-pWHO="\[$CYAN\]\[\u\]\[$PINK\]@\[$CYAN\]\[\h\]\[\e[m\]"
-pGIT=" \[$PINK\]\[\`parse_git_branch\`\]"
-pDIR="\[$CYAN\]\[\w\]\[$PINK\]$pGIT\[\e[m\]"
-# PS1="\[\n\]$pTIME $pDIR\[\n\]$pWHO $YELLOW$ $WHITE"
-PS1="\[\n\]$pTIME $pDIR\[\n\]$pWHO \[$YELLOW\]$\[$WHITE\] "
+# pTIME="$YELLOW[$PURPLE\t$YELLOW]\[$(tput sgr0)\]"
+pTIME="$YELLOW[$PURPLE\D{%Y-%m-%d %H:%M:%S}$YELLOW]\[$(tput sgr0)\]"
+pDIR="$CYAN\w$PINK\[$(tput sgr0)\]"
+pGIT=" $PINK$(parse_git_branch)\[$(tput sgr0)\]"
+pWHO="$CYAN\u$PINK@$CYAN\h\[$(tput sgr0)\]"
+PS1="\n$pTIME $pDIR $pGIT\n\[\`parse_exit_code\`\]\$? $pWHO $YELLOW\$ $RESTORE"
 
 # Backup option in case of issues with the above prompt
 # PS1="\[\n\]\[\033[38;5;57m\][\[$(tput sgr0)\]\[\033[38;5;226m\]\A\[$(tput sgr0)\]\[\033[38;5;57m\]]\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;14m\]\w\[$(tput sgr0)\]\n\[$(tput sgr0)\]\[\033[38;5;213m\]\u\[$(tput sgr0)\]\[\033[38;5;226m\]@\[$(tput sgr0)\]\[\033[38;5;141m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;11m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
