@@ -158,7 +158,7 @@ RESTORE="\[\033[0m\]"		# 0m restores to the terminal's default colour
 # pTIME="$YELLOW[$PURPLE\t$YELLOW]\[$(tput sgr0)\]"
 pTIME="$YELLOW[$PURPLE\D{%Y-%m-%d %H:%M:%S}$YELLOW]\[$(tput sgr0)\]"
 pDIR="$CYAN\w$PINK\[$(tput sgr0)\]"
-pGIT=" $PINK$(parse_git_branch)\[$(tput sgr0)\]"
+pGIT=" $PINK\`parse_git_branch\`\[$(tput sgr0)\]"
 pWHO="$CYAN\u$PINK@$CYAN\h\[$(tput sgr0)\]"
 PS1="\n$pTIME $pDIR $pGIT\n\[\`parse_exit_code\`\]\$? $pWHO $YELLOW\$ $RESTORE"
 
