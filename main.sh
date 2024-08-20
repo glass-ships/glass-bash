@@ -49,6 +49,7 @@ DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 ### Environment Setup ###
 #########################
 
+export GDK_BACKEND=wayland,x11
 export XDG_CONFIG_HOME="$HOME/.config"
 
 if [ -f $DIR/secrets.sh ]; then

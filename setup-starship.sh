@@ -1,4 +1,4 @@
-#/bin/bash
+#/usr/bin/env bash
 
 # Install a Nerd Font --> u can choose another at: https://www.nerdfonts.com/font-downloads
 FONT=FiraCode
