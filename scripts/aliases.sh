@@ -47,13 +47,19 @@ alias jlab='jupyter lab --no-browser' # start jupyter lab
 #-----#
 
 alias gs='git status'
+alias gss='git status -sb'
+alias glog='git log --oneline --graph --decorate --all'
+
+alias gsb='git switch'
 alias gco='git checkout'
+alias gpull='git pull'
 alias gadd='git add -A'
 alias gcam='git commit -am'
 alias gba='git branch -a'
 alias gbd='git branch -d'
+
 alias gstash='git stash'
-alias gpop='git stash pop'
+alias gspop='git stash pop'
 alias gsl='git stash list'
 alias grpo='git remote prune origin'
 
