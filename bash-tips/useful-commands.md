@@ -1,6 +1,7 @@
 ### Bash Tips
 
-Some useful code chunks for navigating the world of Bash
+Some useful code chunks for navigating the world of Bash.  
+(Or just for me to remember things I've done before)
 
 - Set script location as working directory
     ```bash

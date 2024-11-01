@@ -4,36 +4,33 @@ DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 echo Script directory: $DIR
 
 # Add source env to bashrc (unless it's already there somehow)
-echo -e '\nInstalling glass-bash...\n'
-grep -qxF 'source '$DIR'/main' $HOME/.bashrc || echo 'source '$DIR'/main' >>$HOME/.bashrc
-
-# VIM settings
-echo -e '\nCopying VIM settings...\n'
-cp ./.vimrc $HOME/.vimrc
+echo -e '\nInstalling glass-bash...'
+grep -qxF 'source '$DIR'/main.sh' $HOME/.bashrc || echo 'source '$DIR'/main.sh' >>$HOME/.bashrc
 
 # Make sure an SSH key exists
-echo -e '\nChecking for SSH key...\n'
+echo -e '\nChecking for SSH key...'
 if [ ! -e $HOME/.ssh ]; then
-    echo -e '\nCreating SSH key...\n'
+    echo -e '\nCreating SSH key...'
     ssh-keygen -t rsa
 else
     echo -e '\n\e[95mNOTICE\e[0m: ssh key already exists.'
 fi
 
-# Set git user info
-echo -e '\nSetting Git user info...\n'
-read -p 'Please enter your Git username: ' gituser
-read -p 'Please enter your Git email: ' gitemail
-git config --global user.name "$gituser"
-git config --global user.email "$gitemail"
+# Set git user info, if not already set
+echo -e '\nSetting Git user info...'
+if [ -z "$(git config --global user.name)" ]; then
+    read -p 'Please enter your Git username: ' gituser
+    git config --global user.name "$gituser"
+else
+    echo -e '\n\e[95mNOTICE\e[0m: Git user info already set.'
+fi
 
-# Set git to globally ignore ipynb_checkpoints
-rm -f ~/.gitignore
-ln -s $DIR/gitignore ~/.gitignore
-git config --global core.excludesfile '~/.gitignore'
-
-# Set default name for new git repos
-git config --global init.defaultBranch main
+if [ -z "$(git config --global user.email)" ]; then
+    read -p 'Please enter your Git email: ' gitemail
+    git config --global user.email "$gitemail"
+else
+    echo -e '\n\e[95mNOTICE\e[0m: Git email already set.'
+fi
 
 ############################################
-echo -e '\nglass-bash setup is complete!\n'
+echo -e '\nglass-bash setup is complete!'
