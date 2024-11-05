@@ -26,7 +26,7 @@ function move() {
 }
 
 # rm all except listed files
-function rm-all-but() {
+function keep() {
 	local IFS='|'
 	find . -type f | grep -v -E "$*" | xargs rm -rf
 }
@@ -61,6 +61,7 @@ function pull-all() {
 	done
 }
 
+# git delete local branches not on remote
 function git-cleanup-branches() {
 	# git branch --merged | grep -v "\*" | xargs -n 1 git branch -d
 	git branch --merged main | grep -v '^[ *]*main$' | xargs -d'\n' git branch -d
@@ -82,4 +83,35 @@ function update-cloudflared() {
 	wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
 	sudo dpkg -i cloudflared-linux-amd64.deb
 	rm cloudflared-linux-amd64.deb
+}
+
+### Conda stuff
+
+function install-miniforge() {
+	# Install Miniforge
+	wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+	bash Miniforge3-$(uname)-$(uname -m).sh
+}
+
+function uninstall-miniforge() {
+	if ! [ $# -eq 0 ] && [ $1 = "check" ]; then
+		conda init --reverse --dry-run
+		return
+	else
+		conda init --reverse
+	fi
+	CONDA_BASE_ENVIRONMENT=$(conda info --base)
+	echo The next command will delete all files in ${CONDA_BASE_ENVIRONMENT}. Continue? [y/n]
+	read -r response
+	if [[ $response != [Yy]* ]]; then
+		echo Aborting...
+		return
+	fi
+	echo Deleting ${CONDA_BASE_ENVIRONMENT}
+	rm -rf ${CONDA_BASE_ENVIRONMENT}
+	echo ${HOME}/.condarc will be removed if it exists
+	rm -f "${HOME}/.condarc"
+	echo ${HOME}/.conda and underlying files will be removed if they exist.
+	rm -fr ${HOME}/.conda
+	echo Uninstall complete.
 }
