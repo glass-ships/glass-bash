@@ -6,7 +6,7 @@ This repository is designed to add some dazzle and utility to a fresh stock bash
 
 - [`setup.sh`](setup.sh): Initializes shell environment:
 
-  - Adds `source <glass-bash/main.sh` line to `~/.bashrc`
+  - Adds `source /path/to/glass-bash/main.sh` line to `~/.bashrc`
   - Checks for SSH key, creates if missing
   - Sets Git user name and email (user input) if not already set
 

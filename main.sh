@@ -52,8 +52,8 @@ if [ -d /opt/poetry/bin ]; then
 	export PATH=/opt/poetry/bin:$PATH
 	poetry config virtualenvs.in-project true
 fi
-set -u VIRTUAL_ENV
-set -u VIRTUAL_ENV_PROMPT
+unset VIRTUAL_ENV
+unset VIRTUAL_ENV_PROMPT
 
 #----------------#
 # pyenv settings #
