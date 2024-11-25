@@ -29,7 +29,7 @@ if [ -f $DIR/secrets.json ] || [ -L $DIR/secrets.json ]; then
 			continue
 		fi
 		key=$(echo $line | cut -d':' -f1 | tr -d '"' | tr -d ' ')
-		value=$(echo $line | cut -d':' -f2- | tr -d "," | tr -d ' ')
+		value=$(echo $line | cut -d':' -f2- | tr -d '"' | tr -d "," | tr -d ' ')
 		export $key=$value
 	done <$DIR/secrets.json
 else
