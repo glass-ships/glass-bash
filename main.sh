@@ -76,23 +76,27 @@ done
 ### Additional Configs and Paths ###
 ####################################
 
-if command -v direnv &>/dev/null; then
-	eval "$(direnv hook bash)"
+export BUN_INSTALL="$HOME/.bun/"
+if [ -d $BUN_INSTALL ]; then
+	export PATH="$BUN_INSTALL/bin:$PATH"
 fi
 
-if command -v starship &>/dev/null; then
-	eval "$(starship init bash)"
-fi
-
-# if [ -f ~/.cargo/bin ]; then
 if [ -d ~/.cargo/bin ]; then
 	export PATH="$HOME/.cargo/bin:$PATH"
 	. "$HOME/.cargo/env"
 fi
 
-export BUN_INSTALL="$HOME/.bun/"
-if [ -d $BUN_INSTALL ]; then
-	export PATH="$BUN_INSTALL/bin:$PATH"
+if command -v direnv &>/dev/null; then
+	eval "$(direnv hook bash)"
+fi
+
+if [ -d ~/.pixi/bin ]; then
+	export PATH="$HOME/.pixi/bin:$PATH"
+	eval "$(pixi completion --shell bash)"
+fi
+
+if command -v starship &>/dev/null; then
+	eval "$(starship init bash)"
 fi
 
 ########################################################################################
