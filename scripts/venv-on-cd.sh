@@ -2,7 +2,7 @@
 cd() {
     builtin cd "$@" &&
         if [ -f $PWD/.condaconfig ] && [ -n "$CONDA_SHLVL" ]; then
-            conda activate $(cat .condaconfig)
+            micromamba activate $(cat .condaconfig)
             export VENVDIR=$PWD
             export ISCONDAENV=1
         elif [ -f $PWD/.venv/Scripts/activate ]; then
@@ -13,7 +13,7 @@ cd() {
             export VENVDIR=$PWD
         elif [ "$VENVDIR" ]; then
             if [[ $PWD != *"$VENVDIR"* ]]; then
-                conda deactivate || deactivate
+                micromamba deactivate || deactivate
                 export VENVDIR=""
             fi
         fi
