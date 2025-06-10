@@ -74,9 +74,10 @@ alias docker-rm-containers='docker rm (docker ps -a -q)'
 ########
 
 alias install-bun="curl -fsSL https://bun.sh/install | bash"
+alias install-micromamba="curl -L micro.mamba.pm/install.sh | bash"
 alias install-pixi="curl -fsSL https://pixi.sh/install.sh | bash"
 alias install-rust="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
-alias install-uv="wget -qO- https://astral.sh/uv/install.sh | sh"
+alias install-uv="curl -fsSL https://astral.sh/uv/install.sh | sh"
 
 alias get-spotify-playlists="cd ~/dev/spotipy-stuff && poetry -C ~/dev/DISCORD/compass-bot run python scripts/download_spotify_playlists.py -u oceanblocker && cd -"
 
