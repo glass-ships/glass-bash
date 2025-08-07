@@ -1,12 +1,6 @@
 #!/bin/bash
 
-alias cdlds='cd ~/dev/ornl/live_data_server'
-alias cdmantid='cd ~/dev/ornl/mantid'
-alias cdref='cd ~/dev/ornl/refl1d'
-alias cdsans='cd ~/dev/ornl/sans-backend'
-alias cdwebref='cd ~/dev/ornl/web_reflectivity'
-
-# LIVEDATA DB BACKUP
+### LIVEDATA DB BACKUP
 
 # CMD TEMPLATE: docker exec -u <your_postgres_user> <postgres_container_name> pg_dump <database_name_here> > db.dump
 # TEST DB:      docker exec -u postgres test-db-1 pg_dump livedata > db.dump
