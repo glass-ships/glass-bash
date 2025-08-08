@@ -79,7 +79,7 @@ alias install-pixi="curl -fsSL https://pixi.sh/install.sh | bash"
 alias install-rust="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
 alias install-uv="curl -fsSL https://astral.sh/uv/install.sh | sh"
 
-alias get-spotify-playlists="bash /d/dev/_scripts/src/spotify-stuff/download_spotify_playlists.py"
+alias get-spotify-playlists="bash /d/dev/_scripts/src/spotify-stuff/run.sh"
 
 alias ssh-compass='ssh root@174.138.108.38'
 alias update-compass='cd ~/compass-bot/ && uv run compass stop && git pull && uv run compass -v start'
