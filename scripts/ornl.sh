@@ -7,3 +7,4 @@
 # PROD DB:      sudo docker exec -u postgres prod-db-1 pg_dump -Fc livedata > /backup/livedata_db-$(date -d "today" +"%Y%m%d_%H%M").dump
 alias backup-db='nohup sudo docker exec -u postgres prod-db-1 pg_dump --verbose livedata > /backup/livedata_db-$(date -d "today" +"%Y%m%d_%H%M").dump 2>pg_dump-log-errs.txt &'
 alias backup-status='ps aux | grep "pg_dump"'
+alias check-rpm="rpm -qa | grep nsd-app-wrap"
