@@ -36,30 +36,42 @@ function keep() {
 ### Cloudflare stuff
 
 function update-cloudflared() {
-	wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-	sudo dpkg -i cloudflared-linux-amd64.deb
-	rm cloudflared-linux-amd64.deb
+	if command -v apt &>/dev/null; then
+		# Debian/Ubuntu
+		wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+		sudo dpkg -i cloudflared-linux-amd64.deb
+		rm cloudflared-linux-amd64.deb
+	elif command -v pacman &>/dev/null; then
+		# Arch Linux
+		wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+		chmod +x cloudflared-linux-amd64
+		sudo mv cloudflared-linux-amd64 /usr/local/bin/cloudflared
+	fi
+	else
+		echo "Unsupported distribution - please install cloudflared manually"
+		return 1
+	fi
 }
 
 ### Python env stuff
 
 # Automatically activate/deactivate virtual environments on directory change
 cd() {
-    builtin cd "$@" &&
-        if [ -f "$PWD"/.venv/Scripts/activate ]; then
-            . .venv/Scripts/activate
-            export VENVDIR=$PWD
-        elif [ -f "$PWD"/.venv/bin/activate ]; then
-            . .venv/bin/activate
-            export VENVDIR=$PWD
-        elif [ -f "$PWD"/.condaconfig ] && [ -n "$CONDA_SHLVL" ]; then
-            micromamba activate "$(cat .condaconfig)"
-            export VENVDIR=$PWD
-            export ISCONDAENV=1
-        elif [ "$VENVDIR" ]; then
-            if [[ $PWD != *"$VENVDIR"* ]]; then
-                micromamba deactivate || deactivate
-                export VENVDIR=""
-            fi
-        fi
+	builtin cd "$@" &&
+		if [ -f "$PWD"/.venv/Scripts/activate ]; then
+			. .venv/Scripts/activate
+			export VENVDIR=$PWD
+		elif [ -f "$PWD"/.venv/bin/activate ]; then
+			. .venv/bin/activate
+			export VENVDIR=$PWD
+		elif [ -f "$PWD"/.condaconfig ] && [ -n "$CONDA_SHLVL" ]; then
+			micromamba activate "$(cat .condaconfig)"
+			export VENVDIR=$PWD
+			export ISCONDAENV=1
+		elif [ "$VENVDIR" ]; then
+			if [[ $PWD != *"$VENVDIR"* ]]; then
+				micromamba deactivate || deactivate
+				export VENVDIR=""
+			fi
+		fi
 }
