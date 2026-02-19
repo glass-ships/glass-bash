@@ -37,9 +37,9 @@ function pull-all() {
 
 # git delete local branches not on remote
 function git-cleanup-branches() {
-	# git branch --merged | grep -v "\*" | xargs -n 1 git branch -d
 	local default_branch
-	default_branch=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
+	# default_branch=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
+	default_branch=$(git remote show origin | grep 'HEAD branch' | cut -d: -f2 | sed -e 's/^[[:space:]]*//')
 	echo "$default_branch"
 	git branch --merged "$default_branch" | grep -v "^[ *]*$default_branch$" | xargs -d'\n' git branch -d
 }

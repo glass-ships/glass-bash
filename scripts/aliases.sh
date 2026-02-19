@@ -4,13 +4,22 @@
 # General #
 ###########
 
-alias env='env | sort'               # sorted env
-alias grep='grep -n'                 # always grep with line numbers
-howbig() { du -csh "$@"; }           # check how big a directory is
-alias pls='sudo -E '                 # sudo with user PATH
-alias res='echo $?'                  # echo the last command's exit status
-sfind() { sudo find / -name "$@"; }  # search entire filesystem for a value
+alias env='env | sort'              # sorted env
+alias grep='grep -n'                # always grep with line numbers
+howbig() { du -csh "$@"; }          # check how big a directory is
+alias pls='sudo -E '                # sudo with user PATH
+alias res='echo $?'                 # echo the last command's exit status
+sfind() { sudo find / -name "$@"; } # search entire filesystem for a value
 alias upd='sudo apt update -y && sudo apt full-upgrade -y'
+
+# Distribution-specific package management
+if command -v apt &>/dev/null; then
+    alias upd='sudo apt update -y && sudo apt full-upgrade -y'
+    alias pkg-cleanup='sudo apt autoremove -y && sudo apt autoclean -y && sudo apt autopurge -y'
+elif command -v pacman &>/dev/null; then
+    alias upd='sudo pacman -Syu'
+    alias pkg-cleanup='sudo pacman -Sc && sudo pacman -Rns $(pacman -Qtdq)'
+fi
 alias upd-tools="uv self update && pixi self-update && bun upgrade && rustup update"
 
 ##############
