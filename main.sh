@@ -41,7 +41,7 @@ fi
 # Python/Poetry settings #
 #------------------------#
 export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
-export POETRY_HOME=/opt/poetry
+# export POETRY_HOME=/opt/poetry
 if [ -d /opt/poetry/bin ]; then
 	export PATH=/opt/poetry/bin:$PATH
 	poetry config virtualenvs.in-project true
