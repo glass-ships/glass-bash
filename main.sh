@@ -28,9 +28,9 @@ if [ -f $DIR/secrets.json ] || [ -L $DIR/secrets.json ]; then
 		if [[ $line == "{" || $line == "}" ]]; then
 			continue
 		fi
-		key=$(echo $line | cut -d':' -f1 | tr -d '"' | tr -d ' ')
-		value=$(echo $line | cut -d':' -f2- | tr -d '"' | tr -d "," | tr -d ' ')
-		export $key=$value
+		key="${line%%:*}";  key="${key//\"/}";  key="${key// /}"
+		value="${line#*:}"; value="${value//\"/}"; value="${value//,/}"; value="${value// /}"
+		export "$key=$value"
 	done <$DIR/secrets.json
 else
 	# echo "No secrets file found."
@@ -40,22 +40,29 @@ fi
 #------------------------#
 # Python/Poetry settings #
 #------------------------#
-export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
-# export POETRY_HOME=/opt/poetry
-if [ -d /opt/poetry/bin ]; then
-	export PATH=/opt/poetry/bin:$PATH
-	poetry config virtualenvs.in-project true
-fi
+
+# export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+# # export POETRY_HOME=/opt/poetry
+# if [ -d /opt/poetry/bin ]; then
+# 	export PATH=/opt/poetry/bin:$PATH
+# 	poetry config virtualenvs.in-project true
+# fi
 unset VIRTUAL_ENV
 unset VIRTUAL_ENV_PROMPT
 
 #----------------#
 # pyenv settings #
 #----------------#
+
 if [ -d ~/dev/.pyenv ]; then
 	export PYENV_ROOT=~/dev/.pyenv
 	export PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
-	pyenv init - | source
+	_PYENV_CACHE="$HOME/.cache/pyenv-init.bash"
+	if [[ ! -f "$_PYENV_CACHE" || "$PYENV_ROOT/bin/pyenv" -nt "$_PYENV_CACHE" ]]; then
+		pyenv init - > "$_PYENV_CACHE"
+	fi
+	source "$_PYENV_CACHE"
+	unset _PYENV_CACHE
 fi
 
 ####################################
@@ -86,7 +93,12 @@ fi
 
 if [ -d ~/.pixi/bin ]; then
 	export PATH="$HOME/.pixi/bin:$PATH"
-	eval "$(pixi completion --shell bash)"
+	_PIXI_CACHE="$HOME/.cache/pixi-completion.bash"
+	if [[ ! -f "$_PIXI_CACHE" || "$HOME/.pixi/bin/pixi" -nt "$_PIXI_CACHE" ]]; then
+		pixi completion --shell bash > "$_PIXI_CACHE"
+	fi
+	source "$_PIXI_CACHE"
+	unset _PIXI_CACHE
 fi
 
 if command -v starship &>/dev/null; then
