@@ -33,6 +33,14 @@ function keep() {
 	find . -type f | grep -v -E "$*" | xargs rm -rf
 }
 
+# Update all tools (uv, pixi, bun, rustup)
+function upd-tools() {
+	printf "\nUpdating uv...\n" && uv self update || echo "Failed to update uv"
+	printf "\nUpdating pixi...\n" && pixi self-update || echo "Failed to update pixi"
+	printf "\nUpdating bun...\n" && bun upgrade || echo "Failed to update bun"
+	printf "\nUpdating rustup...\n" && rustup update || echo "Failed to update rustup"
+}
+
 ### Cloudflare stuff
 
 function update-cloudflared() {
