@@ -11,21 +11,46 @@ function ship() {
 function pull-all() {
 	local current_dir
 	current_dir=$(pwd)
-	for dir in "$@"; do
+	local recursive=false
+	local dirs=()
+	for arg in "$@"; do
+		case "$arg" in
+		-r | --recursive)
+			recursive=true
+			;;
+		*)
+			dirs+=("$arg")
+			;;
+		esac
+	done
+	for dir in "${dirs[@]}"; do
 		(
 			cd "$dir"
 			printf "\n========================================"
 			printf "\nPulling all repos in $(pwd)...\n"
-			for repo in $(ls -d */); do
-				( # if repo is a directory and has a .git directory
-					if [[ -d "$repo" && -d "$repo/.git" ]]; then
+			if [[ "$recursive" == true ]]; then
+				# find .git dirs at any depth, so nested repos are pulled too
+				while IFS= read -r gitdir; do
+					repo=$(dirname "$gitdir")
+					(
+						cd "$repo"
 						printf "————————————————————————————————————————\n"
 						printf "Pulling $repo\n"
-						cd "$repo"
 						git pull
-					fi
-				)
-			done
+					)
+				done < <(find . -type d -name .git | sort)
+			else
+				for repo in $(ls -d */); do
+					( # if repo is a directory and has a .git directory
+						if [[ -d "$repo" && -d "$repo/.git" ]]; then
+							printf "————————————————————————————————————————\n"
+							printf "Pulling $repo\n"
+							cd "$repo"
+							git pull
+						fi
+					)
+				done
+			fi
 			printf "————————————————————————————————————————\n"
 			printf "=== Finished in $(pwd) ==="
 			if [[ $current_dir != "$dir" ]]; then
