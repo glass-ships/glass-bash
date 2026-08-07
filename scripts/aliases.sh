@@ -20,7 +20,6 @@ elif command -v pacman &>/dev/null; then
     alias upd='sudo pacman -Syu'
     alias pkg-cleanup='sudo pacman -Sc && sudo pacman -Rns $(pacman -Qtdq)'
 fi
-alias upd-tools="uv self update && pixi self-update && bun upgrade && rustup update"
 
 ##############
 # Navigation #
