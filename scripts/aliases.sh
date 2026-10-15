@@ -86,8 +86,10 @@ alias install-bun="curl -fsSL https://bun.sh/install | bash"
 alias install-pixi="curl -fsSL https://pixi.sh/install.sh | bash"
 alias install-rust="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
 alias install-uv="curl -fsSL https://astral.sh/uv/install.sh | sh"
+alias get-vscode="wget https://code.visualstudio.com/sha/download?build=stable&os=linux-x64 -O vscode.tar.gz"
 
 alias get-spotify-playlists="bash /d/dev/_scripts/src/spotify-stuff/run.sh"
 
 alias ssh-compass='ssh root@$COMPASS_IP'
 alias update-compass='cd ~/compass-bot/ && uv run compass stop && git pull && uv run compass -v start'
+
